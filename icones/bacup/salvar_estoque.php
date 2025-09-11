@@ -16,15 +16,16 @@ if ($conn->connect_error) {
 // Receber os dados do formulário
 $posto = $_POST['posto'];
 $produto = $_POST['produto'];
-$quantidade = $_POST['quantidade'];
-$data_entrada = $_POST['data_entrada'];
+$estoque_sistema = $_POST['estoque_sistema'];
+$estoque_fisico = $_POST['estoque_fisico'];
+$data_venda = $_POST['data_venda'];
 
 // Preparar e executar a inserção
-$sql = "INSERT INTO entradas (posto, produto, quantidade, data_entrada)
-        VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO estoque (posto, produto, estoque_sistema, estoque_fisico, data_venda)
+        VALUES (?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssis", $posto, $produto, $quantidade, $data_entrada);
+$stmt->bind_param("ssiis", $posto, $produto, $estoque_sistema, $estoque_fisico, $data_venda);
 
 if ($stmt->execute()) {
     echo "Produto cadastrado com sucesso!";

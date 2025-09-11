@@ -1,50 +1,55 @@
 <?php
-   session_start();
+        session_start();
         include_once('conexao.php');
         
          if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
-        unset($_SESSION['nome']);
-        unset($_SESSION['senha']);
-        header('Location: index.php');
-        exit();  // Importante adicionar o exit() após o redirecionamento
+          unset($_SESSION['nome']);
+          unset($_SESSION['senha']);
+          header('Location: index.php');
+          exit();  // Importante adicionar o exit() após o redirecionamento
+        }
+
+          //esse codigo é responsável por criptografar a pagina viinculado ao codigo teste login.
+          // Verificar se as variáveis de sessão 'email' e 'senha' não estão definidas
+        if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
+          unset($_SESSION['nome']);
+          unset($_SESSION['senha']);
+          header('Location: index.php');
+          exit();  // Importante adicionar o exit() após o redirecionamento
+        }
+    /* Configurações do banco de dados
+        $servername = "localhost"; // Ou o IP do servidor
+        $username = "root"; // Usuário do MySQL
+        $password = ""; // Senha do MySQL
+        $dbname = "estoque_anp"; // Nome do banco de dados
+    */
+    // Criar conexão
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Verificar conexão
+    if ($conn->connect_error) {
+        die("Falha na conexão: " . $conn->connect_error);
     }
 
-     //esse codigo é responsável por criptografar a pagina viinculado ao codigo teste login.
-    // Verificar se as variáveis de sessão 'email' e 'senha' não estão definidas
-    if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
-        unset($_SESSION['nome']);
-        unset($_SESSION['senha']);
-        header('Location: index.php');
-        exit();  // Importante adicionar o exit() após o redirecionamento
-    }
-  // Configurações do banco de dados
-  /*$servername = "localhost"; // Ou o IP do servidor
-  $username = "root"; // Usuário do MySQL
-  $password = ""; // Senha do MySQL
-  $dbname = "estoque_anp"; // Nome do banco de dados*/
+    
 
-  // Criar conexão
-  $conn = new mysqli($servername, $username, $password, $dbname);
+    // Consultar os produtos no estoque
+    $sql_produtos = "SELECT id, produto FROM produtos";
+    $result_produtos = $conn->query($sql_produtos);
 
-  // Verificar conexão
-  if ($conn->connect_error) {
-      die("Falha na conexão: " . $conn->connect_error);
-  }
-
-  // Consultar os produtos no estoque
-  $sql_produtos = "SELECT id, produto FROM produtos";
-  $result_produtos = $conn->query($sql_produtos);
-
-  // Consultar os postos na tabela postos
-  $sql_postos = "SELECT id, posto FROM postos";
-  $result_postos = $conn->query($sql_postos);
+     // Consultar os POSTOS na tabela postos
+    $sql_postos = "SELECT id, posto FROM postos";
+    $result_postos = $conn->query($sql_postos);
+    
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CADASTRO ESTOQUE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENTRADAS DE COMBUSTIVEIS</title>
+</head>
   <style>
     body {
       background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -55,10 +60,11 @@
     }
     h1 {
       text-align: center;
+      color: #fff;
     }
     form {
       background: #a1a1a1ff;
-      padding: 20px;
+      padding: 40px;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       max-width: 400px;
@@ -81,7 +87,7 @@
       border-radius: 5px;
     }
     button {
-      margin-top: 0px;
+      margin-top: 15px;
       padding: 10px 15px;
       border: none;
       background: #007BFF;
@@ -90,7 +96,7 @@
       cursor: pointer;
     }
     .submit{
-      margin-top: 0px;
+      margin-top: 15px;
       padding: 10px 15px;
       border: none;
       background: #007BFF;
@@ -117,17 +123,17 @@
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      background: #0b2e14ff;
+      background: #06180aff;
       color: #fff;
       cursor: pointer;
     }
     select:hover {
       background: #218838;
     }
-    #data_venda:hover {
+    #data_entrada:hover {
       background: #218838;
     }
-    #data_venda {
+    #data_entrada {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 5px;
@@ -207,28 +213,19 @@
       transform-origin: bottom left;/* Ajusta a origem da transformação */
       z-index: 0;/* Coloca atrás do conteúdo principal */
     }
-    h1 {
-      color: #fff;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1; /* Garante que o título fique acima da faixa */
-    }
-    
   </style>
-</head>
 <body>
-    <div class="faixa-inclinada"></div>
-  
-    <h1>Cadastro de Estoque</h1>
-    <button onclick="window.location.href='sair.php'">Sair</button>
-    <button onclick="window.location.href='listar_estoque.php'">Listar Estoque</button>
-    <button onclick="window.location.href='listar_entradas.php'">Listar Entradas</button>
-    <button onclick="window.location.href='formulario_entradas.php'">Entradas</button>
+     <div class="faixa-inclinada"></div>
+        <h1>Entradas de Combustiveis</h1>
+      <button onclick="window.location.href='sair.php'">Sair</button>
+     <button onclick="window.location.href='listar_estoque.php'">Listar Estoque</button>
+     <button onclick="window.location.href='listar_entradas.php'">Listar Entradas</button>
+     <button onclick="window.location.href='formulario_estoque.php'">Adicionar Estoque</button>
+     
 
+    <form  action="salvar_entradas.php"  method="POST" >
 
-  <form  action="salvar_estoque.php"  method="POST" >
-
-  <label for="posto">Posto:</label>
+      <label for="posto">Posto:</label>
     <select  id="posto" class="posto" name="posto" required autofocus>
           <option value="">Selecione</option>
           <?php
@@ -243,30 +240,27 @@
       </select>
 
       <label for="produto">Produto:</label>
-    <select  id="produto" class="filtro-servicos" name="produto" required autofocus>
-          <option value="">Selecione</option>
-          <?php
-          if ($result_produtos && $result_produtos->num_rows > 0) {
-              while($row = $result_produtos->fetch_assoc()) {
-                  echo "<option value='" . $row['produto'] . "'>" . $row['produto'] . "</option>";
-              }
-          } else {
-              echo "<option value=''>Nenhum produto encontrado</option>";
-          }
-          ?>
-      </select>
+        <select  id="produto" class="filtro-servicos" name="produto" required autofocus>
+            <option value="">Selecione</option>
+            <?php
+            if ($result_produtos && $result_produtos->num_rows > 0) {
+                while($row = $result_produtos->fetch_assoc()) {
+                    echo "<option value='" . $row['produto'] . "'>" . $row['produto'] . "</option>";
+                }
+            } else {
+                echo "<option value=''>Nenhum produto encontrado</option>";
+            }
+            ?>
+            </select>
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" id="quantidade" name="quantidade" required>
 
-    <label for="sistema">Estoque do Sistema:</label>
-    <input type="number" id="sistema" name="estoque_sistema" required>
+        <label for="data_entrada">Data:</label>
+        <input type="date" id="data_entrada" name="data_entrada" required>
 
-    <label for="fisico">Estoque Físico:</label>
-    <input type="number" id="fisico" name="estoque_fisico" required>
+        <input class="submit" type="submit" value="Enviar">
+    </form>
 
-    <label for="data_venda">DATA:</label>
-    <input type="date" id="data_venda" name="data_venda" required>
-
-    <input class="submit" type="submit" value="Cadastrar">
-  </form>
     <script>
       // Captura todos os elementos de input, select e textarea
       const inputs = document.querySelectorAll("input, select, textarea");
@@ -284,6 +278,6 @@
           }
         });
       });
-    </script>
+  </script>
 </body>
 </html>

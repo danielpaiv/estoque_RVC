@@ -1,10 +1,28 @@
 <?php
-            // Configurações do banco de dados
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "estoque_anp";
+        session_start();
+        include_once('conexao.php');
+        
+         if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
+                unset($_SESSION['nome']);
+                unset($_SESSION['senha']);
+                header('Location: index.php');
+                exit();  // Importante adicionar o exit() após o redirecionamento
+            }
 
+            //esse codigo é responsável por criptografar a pagina viinculado ao codigo teste login.
+            // Verificar se as variáveis de sessão 'email' e 'senha' não estão definidas
+            if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
+                unset($_SESSION['nome']);
+                unset($_SESSION['senha']);
+                header('Location: index.php');
+                exit();  // Importante adicionar o exit() após o redirecionamento
+            }
+            /* Configurações do banco de dados
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "estoque_anp";
+            */
             // Criar conexão
             $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -45,22 +63,44 @@
             }
             /* Estilo padrão do select */
         .filtro-servicos {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        padding: 8px 12px;
-        border: 2px solid #ccc;
-        border-radius: 6px;
-        background: #fff;
-        color: #333;
-        font-weight: 600;
-        transition: background-color .2s, color .2s, border-color .2s;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 8px 12px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            color: #333;
+            font-weight: 600;
+            transition: background-color .2s, color .2s, border-color .2s;
         }
-         button { margin-bottom: 20px; padding: 10px 15px; border: none; background: #28a745; color: #fff; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #218838; }
-        input, select { margin-left: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; background: #28a745; color: #fff;  cursor: pointer;}
-        input:hover, select:hover { background: #218838; }
-        #dataFiltro:hover {background: #218838;}
+         button { margin-bottom: 20px; 
+            padding: 10px 15px; 
+            border: none; 
+            background: #28a745; 
+            color: #fff; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background: #218838; 
+        }
+        input, select {
+             margin-left: 10px; 
+             padding: 5px; 
+             border: 1px solid #ccc; 
+             border-radius: 5px; 
+             background: #28a745; 
+             color: #fff;  
+             cursor: pointer;
+            }
+
+        input:hover, select:hover { 
+            background: #218838; 
+        }
+        #dataFiltro:hover {
+            background: #218838;
+        }
 
         /* Mudança de cor conforme a opção selecionada */
         .filtro-servicos:has(option:checked[value="GASOLINA COMUM"]) {
@@ -93,8 +133,8 @@
         .filtro-servicos option[value="ETANOL"] { background-color: #c8e6c9; }
         .filtro-servicos option[value="DIESEL S10"] { background-color: #e0e0e0; }
 
-            header { 
-            text-align: center; 
+            header {
+            text-align: center;
             margin-bottom: 70px; 
             position: fixed; 
             top: 0px; 
@@ -130,7 +170,7 @@
      <header>
         <h1>Listar entradas</h1>
 
-        <button onclick="window.location.href='entradas.php'">Cadastrar Nova entrada</button>
+        <button onclick="window.location.href='formulario_entradas.php'">Voltar</button>
 
         <label for="dataFiltro">Filtrar por Data:</label>
         <input type="date" id="dataFiltro" oninput="filtrarData()">

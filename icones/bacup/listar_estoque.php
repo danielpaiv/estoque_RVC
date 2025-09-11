@@ -1,46 +1,27 @@
 <?php
-session_start();
-        include_once('conexao.php');
-        
-         if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
-                unset($_SESSION['nome']);
-                unset($_SESSION['senha']);
-                header('Location: index.php');
-                exit();  // Importante adicionar o exit() após o redirecionamento
-            }
+// Configurações do banco de dados
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "estoque_anp";
 
-            //esse codigo é responsável por criptografar a pagina viinculado ao codigo teste login.
-            // Verificar se as variáveis de sessão 'email' e 'senha' não estão definidas
-            if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
-                unset($_SESSION['nome']);
-                unset($_SESSION['senha']);
-                header('Location: index.php');
-                exit();  // Importante adicionar o exit() após o redirecionamento
-            }
-            /* Configurações do banco de dados
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "estoque_anp";
-            */
+// Conectar ao MySQL
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
 
-            // Conectar ao MySQL
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            if ($conn->connect_error) {
-                die("Falha na conexão: " . $conn->connect_error);
-            }
+// Consultar todos os produtos
+$sql = "SELECT * FROM estoque ORDER BY id DESC";
+$result = $conn->query($sql);
 
-            // Consultar todos os produtos
-            $sql = "SELECT * FROM estoque ORDER BY id DESC";
-            $result = $conn->query($sql);
+// Consultar os produtos no estoque
+$sql_produtos = "SELECT id, produto FROM produtos";
+$result_produtos = $conn->query($sql_produtos);
 
-            // Consultar os produtos no estoque
-            $sql_produtos = "SELECT id, produto FROM produtos";
-            $result_produtos = $conn->query($sql_produtos);
-
-            // Consultar os postos no estoque
-            $sql_postos = "SELECT id, posto FROM postos";
-            $result_postos = $conn->query($sql_postos);
+// Consultar os postos no estoque
+$sql_postos = "SELECT id, posto FROM postos";
+$result_postos = $conn->query($sql_postos);
 
 
 ?>
@@ -64,54 +45,16 @@ session_start();
         /*table { width: 100%; border-collapse: collapse; margin-top: 150px; }
         th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
         th { background: #007BFF; color: white;  }*/
-        .btn { padding: 5px 10px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-        }
-        .btn-editar { 
-            text-decoration: none; 
-            background: #ffc107; 
-            color: #000; 
-        } 
-        .btn-excluir { 
-            text-decoration: none;
-             background: #dc3545; 
-             color: #fff; 
-            }
-        .btn-editar:hover {  
-            background: #e0a800; 
-        }
-        .btn-excluir:hover {  
-            background: #a71d2a; 
-        }
-        button { 
-            margin-bottom: 20px; 
-            padding: 10px 15px; 
-            border: none; 
-            background: #28a745; 
-            color: #fff; 
-            border-radius: 5px; 
-            cursor: pointer; 
-        }
-        button:hover { 
-            background: #218838; 
-        }
-        input, select {
-             margin-left: 10px; 
-             padding: 5px; 
-             border: 1px solid #ccc; 
-             border-radius: 5px; 
-             background: #28a745; 
-             color: #fff;  
-             cursor: pointer;
-            }
-        input:hover, select:hover { 
-            background: #218838; 
-        }
-        #dataFiltro:hover {
-            background: #218838;
-        }
+        .btn { padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-editar { text-decoration: none; background: #ffc107; color: #000; } 
+        .btn-excluir { text-decoration: none; background: #dc3545; color: #fff; }
+        .btn-editar:hover {  background: #e0a800; }
+        .btn-excluir:hover {  background: #a71d2a; }
+        button { margin-bottom: 20px; padding: 10px 15px; border: none; background: #28a745; color: #fff; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #218838; }
+        input, select { margin-left: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; background: #28a745; color: #fff;  cursor: pointer;}
+        input:hover, select:hover { background: #218838; }
+        #dataFiltro:hover {background: #218838;}
 
 
         /* Estilo padrão do select */
@@ -212,7 +155,7 @@ session_start();
     <header>
         <h1>Lista de Estoque</h1>
 
-        <button onclick="window.location.href='formulario_estoque.php'">Voltar</button>
+        <button onclick="window.location.href='formulario_estoque.php'">Cadastrar Novo Produto</button>
 
         <label for="dataFiltro">Filtrar por Data:</label>
         <input type="date" id="dataFiltro" oninput="filtrarData()">

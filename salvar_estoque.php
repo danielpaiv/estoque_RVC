@@ -37,6 +37,6 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-header("Location: formulario_estoque.php");
+header("Location: listar_estoque.php");
 exit();
 ?>
