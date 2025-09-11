@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "estoque_anp";
+$dbname = "estoque_rvc";
 
 // Criar conexão
 $conn = new mysqli($servername, $username, $password, $dbname);

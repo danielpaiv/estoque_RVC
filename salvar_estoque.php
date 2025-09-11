@@ -3,7 +3,7 @@
 $servername = "localhost"; // Ou o IP do servidor
 $username = "root"; // Usuário do MySQL
 $password = ""; // Senha do MySQL
-$dbname = "estoque_anp"; // Nome do banco de dados
+$dbname = "estoque_rvc"; // Nome do banco de dados
 
 // Conectar ao MySQL
 $conn = new mysqli($servername, $username, $password, $dbname);
