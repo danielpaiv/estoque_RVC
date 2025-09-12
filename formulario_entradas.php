@@ -21,7 +21,7 @@
         $servername = "localhost"; // Ou o IP do servidor
         $username = "root"; // Usuário do MySQL
         $password = ""; // Senha do MySQL
-        $dbname = "estoque_rvc"; // Nome do banco de dados
+        $dbname = "estoque_anp"; // Nome do banco de dados
     */
     // Criar conexão
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -48,7 +48,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENTRADAS DE COMBUSTIVEIS</title>
+    <title>CADASTRO ENTRADAS</title>
 </head>
   <style>
     body {
@@ -216,11 +216,11 @@
   </style>
 <body>
      <div class="faixa-inclinada"></div>
-        <h1>Entradas de Combustiveis</h1>
-      <button onclick="window.location.href='sair.php'">Sair</button>
-     <button onclick="window.location.href='listar_estoque.php'">Listar Estoque</button>
-     <button onclick="window.location.href='listar_entradas.php'">Listar Entradas</button>
-     <button onclick="window.location.href='formulario_estoque.php'">Adicionar Estoque</button>
+        <h1>CADASTRO DE ENTRADAS</h1>
+      <button onclick="window.location.href='sair.php'">Sair ↩</button>
+     <button onclick="window.location.href='listar_estoque.php'">Listar Estoque </button>
+     <button onclick="window.location.href='listar_entradas.php'">Listar Entradas </button>
+     <button onclick="window.location.href='formulario_estoque.php'">Adicionar Estoque </button>
      
 
     <form  action="salvar_entradas.php"  method="POST" >
@@ -255,8 +255,8 @@
         <label for="quantidade">Quantidade:</label>
         <input type="number" id="quantidade" name="quantidade" required>
 
-        <label for="data_entrada">Data:</label>
-        <input type="date" id="data_entrada" name="data_entrada" required>
+        <label for="data_entrada">Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
+        <input type="date" id="data_entrada" name="data_entrada" value="<?php echo date('Y-m-d'); ?>" required>
 
         <input class="submit" type="submit" value="Enviar">
     </form>

@@ -52,7 +52,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR ESNTRADAS</title>
+    <title>LISTAR ENTRADAS</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -90,19 +90,17 @@
              padding: 5px; 
              border: 1px solid #ccc; 
              border-radius: 5px; 
-             background: #ffffffff; 
-             color: #080808ff;  
+             background: #28a745; 
+             color: #fff;  
              cursor: pointer;
             }
 
         input:hover, select:hover { 
             background: #218838; 
-            color: #fff;
         }
         #dataFiltro:hover {
             background: #218838;
         }
-        
 
         /* Mudança de cor conforme a opção selecionada */
         .filtro-servicos:has(option:checked[value="GASOLINA COMUM"]) {
@@ -166,58 +164,19 @@
             color: white;
             z-index: 10; /* Mantém sobre as linhas */
         }
-        .limpar{
-             margin-left: 10px; 
-             padding: 5px; 
-             border: 1px solid #ccc; 
-             border-radius: 5px; 
-             background: #ffffffff; 
-             color: #080808ff;  
-             cursor: pointer;
-        }
-        .limpar:hover { 
-             background: #218838; 
-             color: #fff;
-        }
-        .btn-editar, .btn-excluir { 
-            padding: 5px 12px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-        }
-        .btn-editar { 
-            text-decoration: none; 
-            background: #ffc107; 
-            color: #000; 
-        } 
-        .btn-excluir { 
-            text-decoration: none;
-             background: #dc3545; 
-             color: #fff; 
-            }
-        .btn-editar:hover {  
-            background: #e0a800; 
-        }
-        .btn-excluir:hover {  
-            background: #a71d2a; 
-        }
     </style>
 </head>
 <body>
      <header>
-        <h1>LISTA DE ENTRADAS</h1>
+        <h1>Listar entradas</h1>
 
         <button onclick="window.location.href='formulario_entradas.php'">Voltar</button>
-        <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
-        <label for="dataFiltro">Filtrar por Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
-        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>" oninput="filtrarData()">
+        <label for="dataFiltro">Filtrar por Data:</label>
+        <input type="date" id="dataFiltro" oninput="filtrarData()">
 
         <label for="filtroPosto">Filtrar por Posto:</label>
         <select id="filtroPosto" class="filtro-servicos" onchange="filtrarPorPosto()">
-
-        
-
             <option value="">Todos</option>
             <?php
                 if ($result_postos && $result_postos->num_rows > 0) {
@@ -256,7 +215,6 @@
                 <th>Produto</th>
                 <th>Quantidade</th>
                 <th>Data de Entrada</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -270,7 +228,6 @@
                     echo "<td>" . $row['produto'] . "</td>";
                     echo "<td>" . $row['quantidade'] . "</td>";
                     echo "<td>" . $row['data_entrada'] . "</td>";
-                    echo "<td><a href='editar_entradas.php?id=" . $row['id'] . "' class='btn-editar'>Editar</a> <a href='excluir_entradas.php?id=" . $row['id'] . "' class='btn-excluir'onclick=\"return confirm('Tem certeza que deseja excluir este item?')\">Excluir</a></td>";
                     echo "</tr>";
                 }
             } else {
@@ -283,26 +240,13 @@
     </table>
 
     <script>
-
-        function limparFiltros() {
-            const table = document.getElementById('clientesTabela');
-            const button = document.getElementById('limparFiltros');
-            const tr = table.getElementsByTagName('tr');
-            document.getElementById('dataFiltro').value = '';
-            document.getElementById('filtroNome').value = '';
-            document.getElementById('filtroPosto').value = '';
-            filtrarData();
-            filtrarPorNome();
-            filtrarPorPosto();
-
-        }
         function filtrarData() {
             const input = document.getElementById('dataFiltro');
             const filter = input.value.toLowerCase();
             const table = document.getElementById('clientesTabela');
             const tr = table.getElementsByTagName('tr');
             for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[4]; // coluna "Data"
+                const td = tr[i].getElementsByTagName('td')[3]; // coluna "Data"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {

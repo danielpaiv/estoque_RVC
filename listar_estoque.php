@@ -1,5 +1,5 @@
 <?php
-session_start();
+        session_start();
         include_once('conexao.php');
         
          if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
@@ -49,7 +49,7 @@ session_start();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Estoque</title>
+    <title>LISTAR ESTOQUE</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -102,12 +102,13 @@ session_start();
              padding: 5px; 
              border: 1px solid #ccc; 
              border-radius: 5px; 
-             background: #28a745; 
-             color: #fff;  
+             background: #ffffffff; 
+             color: #080808ff;  
              cursor: pointer;
             }
         input:hover, select:hover { 
             background: #218838; 
+            color: #fff;
         }
         #dataFiltro:hover {
             background: #218838;
@@ -116,42 +117,42 @@ session_start();
 
         /* Estilo padrão do select */
         .filtro-servicos {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        padding: 8px 12px;
-        border: 2px solid #ccc;
-        border-radius: 6px;
-        background: #fff;
-        color: #333;
-        font-weight: 600;
-        transition: background-color .2s, color .2s, border-color .2s;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 8px 12px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            color: #333;
+            font-weight: 600;
+            transition: background-color .2s, color .2s, border-color .2s;
         }
 
         /* Mudança de cor conforme a opção selecionada */
         .filtro-servicos:has(option:checked[value="GASOLINA COMUM"]) {
-        background-color: #d32f2f;  /* vermelho */
-        color: #fff;
-        border-color: #b71c1c;
-        }
+            background-color: #d32f2f;  /* vermelho */
+            color: #fff;
+            border-color: #b71c1c;
+            }
 
         .filtro-servicos:has(option:checked[value="GASOLINA DURA MAIS"]) {
-        background-color: #1565c0;  /* azul */
-        color: #fff;
-        border-color: #0d47a1;
-        }
+            background-color: #1565c0;  /* azul */
+            color: #fff;
+            border-color: #0d47a1;
+            }
 
         .filtro-servicos:has(option:checked[value="ETANOL"]) {
-        background-color: #2e7d32;  /* verde */
-        color: #fff;
-        border-color: #1b5e20;
-        }
+            background-color: #2e7d32;  /* verde */
+            color: #fff;
+            border-color: #1b5e20;
+            }
 
         .filtro-servicos:has(option:checked[value="DIESEL S10"]) {
-        background-color: #424242;  /* preto claro (cinza escuro) */
-        color: #fff;
-        border-color: #212121;
-        }
+            background-color: #424242;  /* preto claro (cinza escuro) */
+            color: #fff;
+            border-color: #212121;
+            }
 
         /* (Opcional) colorir as opções no dropdown */
         .filtro-servicos option[value="GASOLINA COMUM"] { background-color: #ffcdd2; }
@@ -203,6 +204,19 @@ session_start();
             transform-origin: bottom left;/* Ajusta a origem da transformação */
             z-index: -10;/* Coloca atrás do conteúdo principal */
         }
+        .limpar{
+             margin-left: 10px; 
+             padding: 5px; 
+             border: 1px solid #ccc; 
+             border-radius: 5px; 
+             background: #ffffffff; 
+             color: #080808ff;  
+             cursor: pointer;
+        }
+        .limpar:hover { 
+             background: #218838; 
+             color: #fff;
+        }
 
             
     </style>
@@ -210,14 +224,15 @@ session_start();
 <body>
     <!--<div class="faixa-inclinada"></div>-->
     <header>
-        <h1>Lista de Estoque</h1>
+        <h1>LISTA DE ESTOQUE</h1>
 
         <button onclick="window.location.href='formulario_estoque.php'">Voltar</button>
+        <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
-        <label for="dataFiltro">Filtrar por Data:</label>
-        <input type="date" id="dataFiltro" oninput="filtrarData()">
+        <label for="dataFiltro">Filtrar Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
+        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>"oninput="filtrarData()" >
 
-        <label for="filtroPosto">Filtrar por Posto:</label>
+        <label for="filtroPosto">Filtrar Posto:</label>
         <select id="filtroPosto" class="filtro-servicos" onchange="filtrarPorPosto()">
             <option value="">Todos</option>
             <?php
@@ -231,7 +246,7 @@ session_start();
                 ?>
         </select>
 
-        <label for="filtroNome">Filtrar por serviços:</label>
+        <label for="filtroNome">Filtrar Produto:</label>
         <select id="filtroNome" class="filtro-servicos" onchange="filtrarPorNome()">
             <option value="">Todos</option>
             <?php
@@ -289,13 +304,26 @@ session_start();
     </tbody>
 </table>
 <script>
+
+        function limparFiltros() {
+            const table = document.getElementById('clientesTabela');
+            const button = document.getElementById('limparFiltros');
+            const tr = table.getElementsByTagName('tr');
+            document.getElementById('dataFiltro').value = '';
+            document.getElementById('filtroNome').value = '';
+            document.getElementById('filtroPosto').value = '';
+            filtrarData();
+            filtrarPorNome();
+            filtrarPorPosto();
+
+        }
         function filtrarData() {
             const input = document.getElementById('dataFiltro');
             const filter = input.value.toLowerCase();
             const table = document.getElementById('clientesTabela');
             const tr = table.getElementsByTagName('tr');
             for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[5]; // coluna "Data"
+                const td = tr[i].getElementsByTagName('td')[6]; // coluna "Data"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {

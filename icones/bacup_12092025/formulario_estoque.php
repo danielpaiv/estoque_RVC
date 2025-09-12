@@ -21,7 +21,7 @@
   /*$servername = "localhost"; // Ou o IP do servidor
   $username = "root"; // Usuário do MySQL
   $password = ""; // Senha do MySQL
-  $dbname = "estoque_anp"; // Nome do banco de dados*/
+  $dbname = "estoque_rvc"; // Nome do banco de dados*/
 
   // Criar conexão
   $conn = new mysqli($servername, $username, $password, $dbname);
@@ -219,7 +219,7 @@
 <body>
     <div class="faixa-inclinada"></div>
   
-    <h1>CADASTRO DE ESTOQUE</h1>
+    <h1>Cadastro de Estoque</h1>
     <button onclick="window.location.href='sair.php'">Sair</button>
     <button onclick="window.location.href='listar_estoque.php'">Listar Estoque</button>
     <button onclick="window.location.href='listar_entradas.php'">Listar Entradas</button>

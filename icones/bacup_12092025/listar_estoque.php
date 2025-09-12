@@ -1,5 +1,5 @@
 <?php
-        session_start();
+session_start();
         include_once('conexao.php');
         
          if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
@@ -23,16 +23,15 @@
                 $password = "";
                 $dbname = "estoque_anp";
             */
-            // Criar conexão
-            $conn = new mysqli($servername, $username, $password, $dbname);
 
-            // Verificar conexão
+            // Conectar ao MySQL
+            $conn = new mysqli($servername, $username, $password, $dbname);
             if ($conn->connect_error) {
                 die("Falha na conexão: " . $conn->connect_error);
             }
 
-            // Consultar as entradas
-            $sql = "SELECT * FROM entradas ORDER BY id DESC";
+            // Consultar todos os produtos
+            $sql = "SELECT * FROM estoque ORDER BY id DESC";
             $result = $conn->query($sql);
 
             // Consultar os produtos no estoque
@@ -43,16 +42,14 @@
             $sql_postos = "SELECT id, posto FROM postos";
             $result_postos = $conn->query($sql_postos);
 
-             // Fechar conexão
-            $conn->close();
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR ESNTRADAS</title>
+    <title>LISTA DE ESTOQUE</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -61,20 +58,35 @@
              color: #333; 
              background-color: #0038a0;
             }
-            /* Estilo padrão do select */
-        .filtro-servicos {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            padding: 8px 12px;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            background: #fff;
-            color: #333;
-            font-weight: 600;
-            transition: background-color .2s, color .2s, border-color .2s;
+        h1 { 
+            text-align: center; 
         }
-         button { margin-bottom: 20px; 
+        /*table { width: 100%; border-collapse: collapse; margin-top: 150px; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background: #007BFF; color: white;  }*/
+        .btn { padding: 5px 10px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .btn-editar { 
+            text-decoration: none; 
+            background: #ffc107; 
+            color: #000; 
+        } 
+        .btn-excluir { 
+            text-decoration: none;
+             background: #dc3545; 
+             color: #fff; 
+            }
+        .btn-editar:hover {  
+            background: #e0a800; 
+        }
+        .btn-excluir:hover {  
+            background: #a71d2a; 
+        }
+        button { 
+            margin-bottom: 20px; 
             padding: 10px 15px; 
             border: none; 
             background: #28a745; 
@@ -90,19 +102,31 @@
              padding: 5px; 
              border: 1px solid #ccc; 
              border-radius: 5px; 
-             background: #ffffffff; 
-             color: #080808ff;  
+             background: #28a745; 
+             color: #fff;  
              cursor: pointer;
             }
-
         input:hover, select:hover { 
             background: #218838; 
-            color: #fff;
         }
         #dataFiltro:hover {
             background: #218838;
         }
-        
+
+
+        /* Estilo padrão do select */
+        .filtro-servicos {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding: 8px 12px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        background: #fff;
+        color: #333;
+        font-weight: 600;
+        transition: background-color .2s, color .2s, border-color .2s;
+        }
 
         /* Mudança de cor conforme a opção selecionada */
         .filtro-servicos:has(option:checked[value="GASOLINA COMUM"]) {
@@ -135,22 +159,20 @@
         .filtro-servicos option[value="ETANOL"] { background-color: #c8e6c9; }
         .filtro-servicos option[value="DIESEL S10"] { background-color: #e0e0e0; }
 
-            header {
-            text-align: center;
+        header { 
+            text-align: center; 
             margin-bottom: 70px; 
             position: fixed; 
             top: 0px; 
             left: 0; 
             right: 0; 
             background: #fff; 
-            z-index: 1000; 
-            padding: 10px 0;
-            }
-            table {
+            z-index: 1000; }
+        table {
             background: #fff;
             border-collapse: collapse;
             width: 100%;
-             margin-top: 155.5px;
+             margin-top: 135.5px;
         }
 
         th, td {
@@ -159,65 +181,44 @@
             text-align: left;
            
         }
+
         .tabela-header th {
             position: sticky;
-            top: 155px; /* Ajuste conforme o layout */
+            top: 135px; /* Ajuste conforme o layout */
             background: #007BFF;
             color: white;
             z-index: 10; /* Mantém sobre as linhas */
         }
-        .limpar{
-             margin-left: 10px; 
-             padding: 5px; 
-             border: 1px solid #ccc; 
-             border-radius: 5px; 
-             background: #ffffffff; 
-             color: #080808ff;  
-             cursor: pointer;
+        .faixa-inclinada {
+            position: absolute;/* Coloca a faixa atrás do conteúdo principal */
+            bottom: 0;/* Ajusta a posição para o fundo */
+            left: 0;/* Ajusta a posição para o fundo */
+            width: 100%;/* Preenche toda a largura da tela */
+            height: 70%;/* Preenche 70% da altura da tela */
+            background: linear-gradient(to bottom, #0a1b7e, #0080ff);/* Cria um gradiente azul */
+            position: absolute;/* Coloca a faixa atrás do conteúdo principal*/ 
+            background-color: #0038a0;
+            clip-path: polygon(0 25%, 100% 0%, 100% 100%, 0% 100%);/* Inclinada para baixo */
+            transform: skewY(-10deg);/* Inclinada para baixo */
+            transform-origin: bottom left;/* Ajusta a origem da transformação */
+            z-index: -10;/* Coloca atrás do conteúdo principal */
         }
-        .limpar:hover { 
-             background: #218838; 
-             color: #fff;
-        }
-        .btn-editar, .btn-excluir { 
-            padding: 5px 12px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-        }
-        .btn-editar { 
-            text-decoration: none; 
-            background: #ffc107; 
-            color: #000; 
-        } 
-        .btn-excluir { 
-            text-decoration: none;
-             background: #dc3545; 
-             color: #fff; 
-            }
-        .btn-editar:hover {  
-            background: #e0a800; 
-        }
-        .btn-excluir:hover {  
-            background: #a71d2a; 
-        }
+
+            
     </style>
 </head>
 <body>
-     <header>
-        <h1>LISTA DE ENTRADAS</h1>
+    <!--<div class="faixa-inclinada"></div>-->
+    <header>
+        <h1>Lista de Estoque</h1>
 
-        <button onclick="window.location.href='formulario_entradas.php'">Voltar</button>
-        <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
+        <button onclick="window.location.href='formulario_estoque.php'">Voltar</button>
 
-        <label for="dataFiltro">Filtrar por Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
-        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>" oninput="filtrarData()">
+        <label for="dataFiltro">Filtrar por Data:</label>
+        <input type="date" id="dataFiltro" oninput="filtrarData()">
 
         <label for="filtroPosto">Filtrar por Posto:</label>
         <select id="filtroPosto" class="filtro-servicos" onchange="filtrarPorPosto()">
-
-        
-
             <option value="">Todos</option>
             <?php
                 if ($result_postos && $result_postos->num_rows > 0) {
@@ -230,9 +231,7 @@
                 ?>
         </select>
 
-           
-
-        <label for="filtroNome">Filtrar por Produto:</label>
+        <label for="filtroNome">Filtrar por serviços:</label>
         <select id="filtroNome" class="filtro-servicos" onchange="filtrarPorNome()">
             <option value="">Todos</option>
             <?php
@@ -244,65 +243,59 @@
                     echo "<option value=''>Nenhum produto encontrado</option>";
                 }
                 ?>
-                   
+                    <!--<option value="">Todos</option>
+                        <option value="GASOLINA COMUM">GASOLINA COMUM</option>
+                        <option value="GASOLINA DURA MAIS">GASOLINA DURA MAIS</option>
+                        <option value="ETANOL">ETANOL</option>
+                        <option value="DIESEL S10">DIESEL S10</option>
+                    --> 
         </select>
 
     </header>
-    <table id="clientesTabela">
-        <thead>
-            <tr class="tabela-header">
+
+<table id="clientesTabela">
+    <thead>
+        <tr class="tabela-header">
                 <th>ID</th>
                 <th>Posto</th>
                 <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Data de Entrada</th>
+                <th>Estoque do Sistema</th>
+                <th>Estoque Físico</th>
+                <th>Diferença</th>
+                <th>Data</th>
                 <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['posto'] . "</td>";
-                    echo "<td>" . $row['produto'] . "</td>";
-                    echo "<td>" . $row['quantidade'] . "</td>";
-                    echo "<td>" . $row['data_entrada'] . "</td>";
-                    echo "<td><a href='editar_entradas.php?id=" . $row['id'] . "' class='btn-editar'>Editar</a> <a href='excluir_entradas.php?id=" . $row['id'] . "' class='btn-excluir'onclick=\"return confirm('Tem certeza que deseja excluir este item?')\">Excluir</a></td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='4'>Nenhuma entrada encontrada</td></tr>";
-            }
-
-           
-            ?>
-        </tbody>
-    </table>
-
-    <script>
-
-        function limparFiltros() {
-            const table = document.getElementById('clientesTabela');
-            const button = document.getElementById('limparFiltros');
-            const tr = table.getElementsByTagName('tr');
-            document.getElementById('dataFiltro').value = '';
-            document.getElementById('filtroNome').value = '';
-            document.getElementById('filtroPosto').value = '';
-            filtrarData();
-            filtrarPorNome();
-            filtrarPorPosto();
-
-        }
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($result->num_rows > 0): ?>
+            <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= $row['id'] ?></td>
+                    <td><?= htmlspecialchars($row['posto']) ?></td>
+                    <td><?= htmlspecialchars($row['produto']) ?></td>
+                    <td><?= $row['estoque_sistema'] ?></td>
+                    <td><?= $row['estoque_fisico'] ?></td>
+                    <td><?= $row['diferenca'] ?></td>
+                    <td><?= $row['data_venda'] ?></td>
+                    <td>
+                        <a href="editar_estoque.php?id=<?= $row['id'] ?>" class="btn btn-editar">Editar</a>
+                        <a href="excluir_estoque.php?id=<?= $row['id'] ?>" class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este item?')">Excluir</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr><td colspan="6">Nenhum produto cadastrado.</td></tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+<script>
         function filtrarData() {
             const input = document.getElementById('dataFiltro');
             const filter = input.value.toLowerCase();
             const table = document.getElementById('clientesTabela');
             const tr = table.getElementsByTagName('tr');
             for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[4]; // coluna "Data"
+                const td = tr[i].getElementsByTagName('td')[5]; // coluna "Data"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {
@@ -330,6 +323,7 @@
                 }
             }
         }
+
         function filtrarPorPosto() {
             const input = document.getElementById('filtroPosto');
             const filter = input.value.toLowerCase();
@@ -350,3 +344,7 @@
 </script>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

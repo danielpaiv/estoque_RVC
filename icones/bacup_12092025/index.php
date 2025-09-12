@@ -4,7 +4,7 @@
         $username = "root"; // Usuário do MySQL
         $password = ""; // Senha do MySQL
         $dbname = "estoque_rvc"; // Nome do banco de dados
-
+    
         // Criar conexão
         $conn = new mysqli($servername, $username, $password, $dbname);
 
