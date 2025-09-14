@@ -51,7 +51,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>EDITAR ESTOQUE</title>
+<title>EDITAR ESTOQUE - RVC</title>
 <style>
   body {
     background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -205,7 +205,7 @@
 <body>
 <div class="faixa-inclinada"></div>
 
-<center><h1>EDITAR ESTOQUE</h1></center>
+<center><h1>EDITAR ESTOQUE - RVC</h1></center>
 
 <form method="POST">
 

@@ -49,7 +49,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>LISTAR ESTOQUE</title>
+    <title>LISTAR ESTOQUE - RVC</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -224,7 +224,7 @@
 <body>
     <!--<div class="faixa-inclinada"></div>-->
     <header>
-        <h1>LISTA DE ESTOQUE</h1>
+        <h1>LISTA DE ESTOQUE - RVC</h1>
 
         <button onclick="window.location.href='formulario_estoque.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>

@@ -52,7 +52,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR ESNTRADAS</title>
+    <title>LISTAR ENTRADAS - RVC</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -205,7 +205,7 @@
 </head>
 <body>
      <header>
-        <h1>LISTA DE ENTRADAS</h1>
+        <h1>LISTA DE ENTRADAS - RVC</h1>
 
         <button onclick="window.location.href='formulario_entradas.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>

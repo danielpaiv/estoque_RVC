@@ -48,7 +48,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CADASTRO ENTRADAS</title>
+    <title>CADASTRO ENTRADAS - RVC</title>
 </head>
   <style>
     body {
@@ -209,14 +209,14 @@
       position: absolute;/* Coloca a faixa atrás do conteúdo principal */
       background-color: #0038a0;
       clip-path: polygon(0 25%, 100% 0%, 100% 100%, 0% 100%);/* Inclinada para baixo */
-      transform: skewY(-10deg);/* Inclinada para baixo */
+      transform: skewY(-8deg);/* Inclinada para baixo */
       transform-origin: bottom left;/* Ajusta a origem da transformação */
       z-index: 0;/* Coloca atrás do conteúdo principal */
     }
   </style>
 <body>
      <div class="faixa-inclinada"></div>
-        <h1>CADASTRO DE ENTRADAS</h1>
+        <h1>CADASTRO DE ENTRADAS - RVC</h1>
       <button onclick="window.location.href='sair.php'">Sair ↩</button>
      <button onclick="window.location.href='listar_estoque.php'">Listar Estoque </button>
      <button onclick="window.location.href='listar_entradas.php'">Listar Entradas </button>

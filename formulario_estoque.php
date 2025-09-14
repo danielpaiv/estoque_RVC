@@ -44,7 +44,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>CADASTRO ESTOQUE</title>
+  <title>CADASTRO ESTOQUE - RVC</title>
   <style>
     body {
       background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -54,6 +54,7 @@
       color: #333;
     }
     h1 {
+      top: -20px;
       text-align: center;
     }
     form {
@@ -219,7 +220,7 @@
 <body>
     <div class="faixa-inclinada"></div>
   
-    <h1>CADASTRO DE ESTOQUE</h1>
+    <h1>CADASTRO DE ESTOQUE - RVC</h1>
     <button onclick="window.location.href='sair.php'">Sair</button>
     <button onclick="window.location.href='listar_estoque.php'">Listar Estoque</button>
     <button onclick="window.location.href='listar_entradas.php'">Listar Entradas</button>
