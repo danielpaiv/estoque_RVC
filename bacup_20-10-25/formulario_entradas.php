@@ -10,13 +10,12 @@
         }
 
           //esse codigo é responsável por criptografar a pagina viinculado ao codigo teste login.
-          // Verificar se as variáveis de sessão 'email' e 'senha' não estão definidas
-        if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
-          unset($_SESSION['nome']);
-          unset($_SESSION['senha']);
-          header('Location: index.php');
-          exit();  // Importante adicionar o exit() após o redirecionamento
-        }
+          if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
+            unset($_SESSION['nome']);
+            unset($_SESSION['senha']);
+            header('Location: index.php');
+            exit();  // Importante adicionar o exit() após o redirecionamento
+          }
     /* Configurações do banco de dados
         $servername = "localhost"; // Ou o IP do servidor
         $username = "root"; // Usuário do MySQL

@@ -1,9 +1,8 @@
 <?php
-// Configurações do banco de dados
-$servername = "localhost"; // Ou o IP do servidor
-$username = "root"; // Usuário do MySQL
-$password = ""; // Senha do MySQL
-$dbname = "estoque_rvc"; // Nome do banco de dados
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "estoque_anp";
 
 // Criar conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
