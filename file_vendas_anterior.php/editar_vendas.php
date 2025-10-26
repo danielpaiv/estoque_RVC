@@ -31,7 +31,7 @@
           $data_venda = $_POST['data_venda'];
 
           $stmt = $conn->prepare("UPDATE vendas SET posto=?, produto=?, quantidade=?, data_venda=? WHERE id=?");
-          $stmt->bind_param("ssisi", $posto, $produto, $quantidade, $data_venda, $id);
+          $stmt->bind_param("ssdsi", $posto, $produto, $quantidade, $data_venda, $id);
           $stmt->execute();
           $stmt->close();
 
@@ -256,7 +256,7 @@
       </select>
 
   <label>Quantidade:</label>
-  <input type="number" name="quantidade" value="<?= $quantidade ?>" required
+  <input type="number" name="quantidade" step="0.001" value="<?= $quantidade ?>" required>
 
   <label>Data:</label>
   <input type="date" name="data_venda" value="<?= $data_venda ?>" required>

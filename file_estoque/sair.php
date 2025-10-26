@@ -8,6 +8,6 @@
     }
     unset($_SESSION['nome']);
     unset($_SESSION['senha']);
-    header('Location: http://localhost/controle_combustivel/estoque_ANP/index.php');
+    header('Location: http://localhost/controle_combustivel/estoque_RVC/index.php');
 
 ?>

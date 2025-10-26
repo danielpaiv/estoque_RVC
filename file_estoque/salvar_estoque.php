@@ -22,12 +22,15 @@ $estoque_sistema = $_POST['estoque_sistema'];
 $estoque_fisico = $_POST['estoque_fisico'];
 $data_venda = $_POST['data_venda'];
 
+$estoque_sistema = str_replace(',', '.', $estoque_sistema);
+$estoque_fisico = str_replace(',', '.', $estoque_fisico);
+
 // Preparar e executar a inserção
 $sql = "INSERT INTO estoque (nome, user_id, posto, produto, estoque_sistema, estoque_fisico, data_venda)
         VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sisssss", $nome, $user_id, $posto, $produto, $estoque_sistema, $estoque_fisico, $data_venda);
+$stmt->bind_param("sissdds", $nome, $user_id, $posto, $produto, $estoque_sistema, $estoque_fisico, $data_venda);
 
 if ($stmt->execute()) {
     echo "Produto cadastrado com sucesso!";

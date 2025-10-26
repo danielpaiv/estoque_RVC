@@ -245,7 +245,7 @@
                 ?>
                 </select>
             <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" name="quantidade" required>
+            <input type="number" id="quantidade" name="quantidade" step="0.001" required>
 
             <label for="data_entrada">Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
             <input type="date" id="data_entrada" name="data_entrada" value="<?php echo date('Y-m-d'); ?>" required>

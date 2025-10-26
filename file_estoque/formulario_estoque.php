@@ -215,8 +215,9 @@
     <h1>CADASTRO DE ESTOQUE - RVC</h1>
     <button onclick="window.location.href='sair.php'">Sair ↩</button>
     <button onclick="window.location.href='listar_estoque.php'">Estoque</button>
-    <!--<button onclick="window.location.href='http://localhost/controle_combustivel/estoque_ANP/file_entradas.php/listar_entradas.php'">Listar Entradas</button>-->
     <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_entradas.php/listar_entradas.php'">Entradas</button>
+    <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_vendas_anterior.php/formulario_vendas_dia_anterior.php'">Listar Vendas Anterior</button>
+
 
 
   <form  action="salvar_estoque.php"  method="POST" >
@@ -250,10 +251,10 @@
       </select>
 
     <label for="sistema">Estoque do Sistema:</label>
-    <input type="number" id="sistema" name="estoque_sistema" required>
+    <input type="number" id="sistema" name="estoque_sistema" step="0.001"  required>
 
     <label for="fisico">Estoque Físico:</label>
-    <input type="number" id="fisico" name="estoque_fisico" required>
+    <input type="number" id="fisico" name="estoque_fisico" step="0.001" required>
 
     <label for="data_venda">DATA:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
     <input type="date" id="data_venda" name="data_venda" value="<?php echo date('Y-m-d'); ?>" required>

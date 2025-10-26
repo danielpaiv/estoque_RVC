@@ -32,7 +32,7 @@
           $data_venda = $_POST['data_venda'];
 
           $stmt = $conn->prepare("UPDATE estoque SET posto=?, produto=?, estoque_sistema=?, estoque_fisico=?, data_venda=? WHERE id=?");
-          $stmt->bind_param("ssiisi", $posto, $produto, $estoque_sistema, $estoque_fisico, $data_venda, $id);
+          $stmt->bind_param("ssddsi", $posto, $produto, $estoque_sistema, $estoque_fisico, $data_venda, $id);
           $stmt->execute();
           $stmt->close();
 
@@ -257,10 +257,10 @@
       </select>
 
   <label>Estoque do Sistema:</label>
-  <input type="number" name="estoque_sistema" value="<?= $estoque_sistema ?>" required>
+  <input type="number" name="estoque_sistema" step="0.001" value="<?= $estoque_sistema ?>" required>
 
   <label>Estoque Físico:</label>
-  <input type="number" name="estoque_fisico" value="<?= $estoque_fisico ?>" required>
+  <input type="number" name="estoque_fisico" step="0.001" value="<?= $estoque_fisico ?>" required>
 
   <label>Data:</label>
   <input type="date" name="data_venda" value="<?= $data_venda ?>" required>

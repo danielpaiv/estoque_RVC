@@ -270,6 +270,7 @@
         <tr class="tabela-header">
                 <th>ID</th>
                 <th>user_ID</th>
+                <th>Nome</th>
                 <th>Posto</th>
                 <th>Produto</th>
                 <th>Estoque do Sistema</th>
@@ -285,6 +286,7 @@
                 <tr>
                     <td><?= $row['id'] ?></td>
                     <td><?= $row['user_id'] ?></td>
+                    <td><?= htmlspecialchars($row['nome']) ?></td>
                     <td><?= htmlspecialchars($row['posto']) ?></td>
                     <td><?= htmlspecialchars($row['produto']) ?></td>
                     <td><?= $row['estoque_sistema'] ?></td>

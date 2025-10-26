@@ -21,7 +21,7 @@
             $_SESSION['user_id'] = $user_data['id']; // Armazena o user_id na sessão
             $_SESSION['nome'] = $user_data['nome'];// Armazena o nome na sessão
             $_SESSION['senha'] = $user_data['senha'];// Armazena a senha na sessão
-            header('Location: http://localhost/controle_combustivel/estoque_RVC/file_estoque/listar_estoque.php');// Redirect to produtos.php
+            header('Location: painel.php');// Redirect to produtos.php
             exit();
         }
     } else {
