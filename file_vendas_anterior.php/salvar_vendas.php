@@ -28,7 +28,7 @@ $sql = "INSERT INTO vendas ( nome, user_id, posto, produto, quantidade, data_ven
         VALUES (?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sissis", $nome, $user_id, $posto, $produto, $quantidade, $data_venda);
+$stmt->bind_param("sissds", $nome, $user_id, $posto, $produto, $quantidade, $data_venda);
 
 if ($stmt->execute()) {
     echo "Produto cadastrado com sucesso!";
