@@ -40,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR TODAS - RVC</title>
+    <title>LISTAR TODAS AS VENDAS</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -193,7 +193,7 @@
 </head>
 <body>
      <header>
-        <h1>LISTAR TODAS - RVC</h1>
+        <h1>LISTAR TODAS AS VENDAS</h1>
         <button onclick="window.location.href='listar_vendas.php'">Voltar</button>
         <button onclick="window.location.href='formulario_vendas_dia_anterior.php'">Adicionar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>

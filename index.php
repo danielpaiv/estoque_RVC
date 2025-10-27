@@ -128,6 +128,31 @@
     #data_entrada:hover {
       background: #218838;
     }
+
+    .usuario-linha {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    /* Input de ID menor */
+    #usuario_id {
+      width: 60px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: linear-gradient(to right, #b0f5ff, #55d4ff);
+      color: #000;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* Mantém o estilo original do select */
+    #nome {
+      width: 70%;
+    }
   </style>
 </head>
 <body>
@@ -139,19 +164,27 @@
 
     <form action="teste_login.php" method="post">
       <div style="width: 100%;">
+
+    <!--  
+        <label for="usuario_id">🆔 ID do Usuário:</label>
+        <input type="number" id="usuario_id" name="usuario_id" placeholder="Digite o ID" required>
+    -->
         <label for="usuario">🤵</label>
-        <select  id="nome" class="nome" name="nome" required autofocus>
-                  <option value="">Selecione</option>
-                  <?php
-                  if ($result_usuarios && $result_usuarios->num_rows > 0) {
-                      while($row = $result_usuarios->fetch_assoc()) {
-                          echo "<option value='" . $row['nome'] . "'>" . $row['nome'] . "</option>";
-                      }
-                  } else {
-                      echo "<option value=''>Nenhum usuário encontrado</option>";
-                  }
-                  ?>
-        </select>
+            <div class="usuario-linha">
+              <input type="text" id="usuario_id" name="usuario_id" placeholder="ID"  autofocus>
+              <select  id="nome" class="nome" name="nome" required  >
+                        <option value="">Selecione</option>
+                        <?php
+                        if ($result_usuarios && $result_usuarios->num_rows > 0) {
+                            while($row = $result_usuarios->fetch_assoc()) {
+                              echo "<option value='" . $row['nome'] . "' data-id='" . $row['id'] . "'>" . $row['nome'] . "</option>";
+                            }
+                        } else {
+                            echo "<option value=''>Nenhum usuário encontrado</option>";
+                        }
+                        ?>
+              </select>
+            </div>
       </div>
       <div style="width: 100%;">
         <label for="senha">🔒</label>
@@ -161,6 +194,28 @@
     </form>
   </div>
     <script>
+
+      // Quando o usuário digitar um ID, procurar o nome correspondente
+      document.getElementById('usuario_id').addEventListener('input', function() {
+        const idDigitado = this.value;
+        const selectNome = document.getElementById('nome');
+        let encontrado = false;
+
+        // Percorre as opções e procura a que tenha o data-id igual ao digitado
+        for (let i = 0; i < selectNome.options.length; i++) {
+          const opcao = selectNome.options[i];
+          if (opcao.dataset.id === idDigitado) {
+            selectNome.value = opcao.value;
+            encontrado = true;
+            break;
+          }
+        }
+
+        // Se não encontrar, limpa a seleção
+        if (!encontrado) {
+          selectNome.value = "";
+        }
+      });
       // Captura todos os elementos de input, select e textarea
       const inputs = document.querySelectorAll("input, select, textarea");
 

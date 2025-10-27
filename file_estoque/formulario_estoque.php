@@ -59,7 +59,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>CADASTRO ESTOQUE - RVC</title>
+  <title>CADASTRO ESTOQUE</title>
   <style>
     body {
       background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -237,7 +237,7 @@
 
     
   
-    <h1>CADASTRO DE ESTOQUE - RVC</h1>
+    <h1>CADASTRO DE ESTOQUE</h1>
     <button onclick="window.location.href='sair.php'">Sair ↩</button>
     <button onclick="window.location.href='listar_estoque.php'">Estoque</button>
     <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_entradas.php/listar_entradas.php'">Entradas</button>

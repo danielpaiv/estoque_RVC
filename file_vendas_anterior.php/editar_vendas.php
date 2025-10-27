@@ -90,7 +90,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>EDITAR ESTOQUE - RVC</title>
+<title>EDITAR VENDAS</title>
 <style>
   body {
     background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -247,16 +247,17 @@
 <div class="faixa-inclinada"></div>
 <button onclick="window.location.href='formulario_vendas_dia_anterior.php'">Voltar</button>
 
-<center><h1>EDITAR ESTOQUE - RVC</h1></center>
+<center><h1>EDITAR VENDAS</h1></center>
 
 
 <form method="POST">
 
   <label>Posto:</label>
   <select name="posto" class="filtro-servicos" value="<?= htmlspecialchars($posto) ?>" required readonly autofocus>
+    
     <option value="<?= $posto ?>"><?= $posto ?></option readonly>
           <?php
-          if ($result_postos && $result_postos->num_rows > 0) {
+          if ($result_postos && $result_postos->num_rows > 0) {// Verifica se há postos disponíveis
               while($row = $result_postos->fetch_assoc()) {
                    $selected = (isset($_SESSION['posto_id']) && $_SESSION['posto_id'] == $row['id']) ? 'selected' : '';
                 echo "<option value='" . $row['posto'] . "' $selected>" . $row['posto'] . "</option>";

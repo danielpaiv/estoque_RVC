@@ -89,7 +89,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>EDITAR ESTOQUE - ANP</title>
+<title>EDITAR ESTOQUE</title>
 <style>
   body {
     background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -246,14 +246,14 @@
 <div class="faixa-inclinada"></div>
 <button onclick="window.location.href='listar_estoque.php'">Voltar</button>
 
-<center><h1>EDITAR ESTOQUE - ANP</h1></center>
+<center><h1>EDITAR ESTOQUE</h1></center>
 
 
 <form method="POST">
 
   <label for="posto">Posto:</label>
     <select id="posto" class="posto" name="posto" required autofocus>
-        <option value="">Selecione</option>
+        <option value="<?= $posto ?>"><?= $posto ?></option readonly>
         <?php
         if ($result_postos && $result_postos->num_rows > 0) {
             while($row = $result_postos->fetch_assoc()) {

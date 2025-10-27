@@ -41,7 +41,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR VENDAS DIA ANTERIOR RVC</title>
+    <title>VENDAS DIA ANTERIOR</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -216,7 +216,7 @@
 </head>
 <body>
     <header>
-        <h1>LISTA DE VENDAS - RVC</h1>
+        <h1>VENDAS DIA ANTERIOR</h1>
         <button onclick="window.location.href='formulario_vendas_dia_anterior.php'">Voltar</button>
         <button onclick="window.location.href='listar_todas_vendas.php'">Tudo</button>
         <button onclick="window.location.href='formulario_vendas_dia_anterior.php'">Adicionar</button>

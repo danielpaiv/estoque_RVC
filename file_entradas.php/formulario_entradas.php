@@ -62,7 +62,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CADASTRO ENTRADAS - RVC</title>
+    <title>CADASTRO ENTRADAS</title>
 </head>
   <style>
     body {
@@ -230,7 +230,7 @@
   </style>
     <body>
       <div class="faixa-inclinada"></div>
-      <h1>CADASTRO DE ENTRADAS - RVC</h1>
+      <h1>CADASTRO DE ENTRADAS</h1>
 
       <button onclick="window.location.href='sair.php'">Sair ↩</button>
       <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_estoque/listar_estoque.php'">Estoque </button>

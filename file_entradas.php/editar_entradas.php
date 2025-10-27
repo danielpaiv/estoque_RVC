@@ -86,7 +86,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>EDITAR PRODUTO - RVC</title>
+<title>EDITAR PRODUTO</title>
 <style>
   body {
     background: linear-gradient(to bottom, #0a1b7e, #0080ff);
@@ -218,7 +218,7 @@
 
 <button onclick="window.location.href='listar_entradas.php'">Voltar</button>
 
-<center><h1>EDITAR PRODUTO - RVC</h1></center>
+<center><h1>EDITAR PRODUTO</h1></center>
 
 <form method="POST">
 
