@@ -25,9 +25,34 @@
     $sql_produtos = "SELECT id, produto FROM produtos";
     $result_produtos = $conn->query($sql_produtos);
 
-    // Consultar os postos na tabela postos
-    $sql_postos = "SELECT id, posto FROM postos";
-    $result_postos = $conn->query($sql_postos);
+    // Consultar apenas os postos que o usuário pode acessar
+    $sql_postos = "
+        SELECT p.id, p.posto
+        FROM postos p
+        INNER JOIN usuarios_postos up ON up.posto_id = p.id
+        WHERE up.usuario_id = ?
+        ORDER BY p.posto
+    ";
+    $stmt_postos = $conn->prepare($sql_postos);
+    $stmt_postos->bind_param("i", $user_id);
+    $stmt_postos->execute();
+    $result_postos = $stmt_postos->get_result();
+
+    // Quando o usuário seleciona um posto
+    if (isset($_POST['posto']) && !empty($_POST['posto'])) {
+        $_SESSION['posto_id'] = $_POST['posto'];
+
+        // Buscar o nome do posto
+        $sql_nome = "SELECT posto FROM postos WHERE id = ?";
+        $stmt_nome = $conn->prepare($sql_nome);
+        $stmt_nome->bind_param("i", $_SESSION['posto_id']);
+        $stmt_nome->execute();
+        $result_nome = $stmt_nome->get_result();
+        if ($result_nome->num_rows > 0) {
+            $posto_nome = $result_nome->fetch_assoc()['posto'];
+            $_SESSION['posto_nome'] = $posto_nome;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -223,21 +248,22 @@
   <form  action="salvar_estoque.php"  method="POST" >
 
   <label for="posto">Posto:</label>
-    <select  id="posto" class="posto" name="posto" required autofocus>
-          <option value="">Selecione</option>
-          <?php
-          if ($result_postos && $result_postos->num_rows > 0) {
-              while($row = $result_postos->fetch_assoc()) {
-                  echo "<option value='" . $row['posto'] . "'>" . $row['posto'] . "</option>";
-              }
-          } else {
-              echo "<option value=''>Nenhum posto encontrado</option>";
-          }
-          ?>
-      </select>
+    <select id="posto" class="posto" name="posto" required autofocus>
+        <option value="">Selecione</option>
+        <?php
+        if ($result_postos && $result_postos->num_rows > 0) {
+            while($row = $result_postos->fetch_assoc()) {
+                $selected = (isset($_SESSION['posto_id']) && $_SESSION['posto_id'] == $row['id']) ? 'selected' : '';
+                echo "<option value='" . $row['posto'] . "' $selected>" . $row['posto'] . "</option>";
+            }
+        } else {
+            echo "<option value=''>Nenhum posto encontrado</option>";
+        }
+        ?>
+    </select>
 
       <label for="produto">Produto:</label>
-    <select  id="produto" class="filtro-servicos" name="produto" required autofocus>
+    <select  id="produto" class="filtro-servicos" name="produto" required >
           <option value="">Selecione</option>
           <?php
           if ($result_produtos && $result_produtos->num_rows > 0) {
@@ -251,7 +277,7 @@
       </select>
 
     <label for="sistema">Estoque do Sistema:</label>
-    <input type="number" id="sistema" name="estoque_sistema" step="0.001"  required>
+    <input type="number" id="sistema" name="estoque_sistema" step="0.001"  required >
 
     <label for="fisico">Estoque Físico:</label>
     <input type="number" id="fisico" name="estoque_fisico" step="0.001" required>
@@ -262,13 +288,16 @@
     <input class="submit" type="submit" value="Cadastrar">
   </form>
 
+   
+
   <p style="color:white">Usuario: <?php echo $nome; ?></p>
   <p style="color:white">ID: <?php echo $user_id; ?></p>
 
     <script>
-      // Captura todos os elementos de input, select e textarea
-      const inputs = document.querySelectorAll("input, select, textarea");
 
+      
+       // Captura todos os elementos de input, select e textarea
+      const inputs = document.querySelectorAll("input, select, textarea");
       inputs.forEach((el, index) => {
         el.addEventListener("keydown", function (e) {
           if (e.key === "Enter") {

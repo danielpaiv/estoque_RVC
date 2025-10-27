@@ -55,11 +55,34 @@
       $sql_produtos = "SELECT id, produto FROM produtos";
       $result_produtos = $conn->query($sql_produtos);
 
-      // Consultar os postos na tabela postos
-      $sql_postos = "SELECT id, posto FROM postos";
-      $result_postos = $conn->query($sql_postos);
+      // Consultar apenas os postos que o usuário pode acessar
+    $sql_postos = "
+        SELECT p.id, p.posto
+        FROM postos p
+        INNER JOIN usuarios_postos up ON up.posto_id = p.id
+        WHERE up.usuario_id = ?
+        ORDER BY p.posto
+    ";
+    $stmt_postos = $conn->prepare($sql_postos);
+    $stmt_postos->bind_param("i", $user_id);
+    $stmt_postos->execute();
+    $result_postos = $stmt_postos->get_result();
 
-      $conn->close();
+    // Quando o usuário seleciona um posto
+    if (isset($_POST['posto']) && !empty($_POST['posto'])) {
+        $_SESSION['posto_id'] = $_POST['posto'];
+
+        // Buscar o nome do posto
+        $sql_nome = "SELECT posto FROM postos WHERE id = ?";
+        $stmt_nome = $conn->prepare($sql_nome);
+        $stmt_nome->bind_param("i", $_SESSION['posto_id']);
+        $stmt_nome->execute();
+        $result_nome = $stmt_nome->get_result();
+        if ($result_nome->num_rows > 0) {
+            $posto_nome = $result_nome->fetch_assoc()['posto'];
+            $_SESSION['posto_nome'] = $posto_nome;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -228,19 +251,20 @@
 
 <form method="POST">
 
-  <label>Posto:</label>
-  <select name="posto" class="filtro-servicos" value="<?= htmlspecialchars($posto) ?>" required readonly autofocus>
-    <option value="<?= $posto ?>"><?= $posto ?></option readonly>
-          <?php
-          if ($result_postos && $result_postos->num_rows > 0) {
-              while($row = $result_postos->fetch_assoc()) {
-                  echo "<option value='" . $row['posto'] . "'>" . $row['posto'] . "</option>";
-              }
-          } else {
-              echo "<option value=''>Nenhum posto encontrado</option>";
-          }
-          ?>
-  </select>
+  <label for="posto">Posto:</label>
+    <select id="posto" class="posto" name="posto" required autofocus>
+        <option value="">Selecione</option>
+        <?php
+        if ($result_postos && $result_postos->num_rows > 0) {
+            while($row = $result_postos->fetch_assoc()) {
+                $selected = (isset($_SESSION['posto_id']) && $_SESSION['posto_id'] == $row['id']) ? 'selected' : '';
+                echo "<option value='" . $row['posto'] . "' $selected>" . $row['posto'] . "</option>";
+            }
+        } else {
+            echo "<option value=''>Nenhum posto encontrado</option>";
+        }
+        ?>
+    </select>
 
   <label>Produto:</label>
    <select  id="form-control" class="filtro-servicos" name="produto" required >

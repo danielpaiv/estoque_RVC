@@ -260,6 +260,7 @@
             <tr class="tabela-header">
                 <th>ID</th>
                 <th>User ID</th>
+                <th>Nome</th>
                 <th>Posto</th>
                 <th>Produto</th>
                 <th>Quantidade</th>
@@ -274,6 +275,7 @@
                 while($row = $result_entradas->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['nome'] . "</td>";
                     echo "<td>" . $row['user_id'] . "</td>";
                     echo "<td>" . $row['posto'] . "</td>";
                     echo "<td>" . $row['produto'] . "</td>";
