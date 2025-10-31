@@ -40,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR TODAS AS ENTRADAS</title>
+    <title>LISTAR ENTRADAS</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -147,6 +147,13 @@
             text-align: left;
            
         }
+         tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #007BFF;
+            color: white;
+        }
         .tabela-header th {
             position: sticky;
             top: 155px; /* Ajuste conforme o layout */
@@ -193,9 +200,8 @@
 </head>
 <body>
      <header>
-        <h1>LISTAR TODAS AS ENTRADAS</h1>
-        <button onclick="window.location.href='listar_entradas.php'">Voltar</button>
-        <button onclick="window.location.href='formulario_entradas.php'">Adicionar</button>
+        <h1>LISTAR ENTRADAS</h1>
+        <button onclick="window.location.href='painel.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
           <label for="usuario"></label>

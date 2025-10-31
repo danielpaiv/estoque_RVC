@@ -16,8 +16,8 @@
         
 
         // Consultar os produtos no estoque
-        $sql_usuarios = "SELECT id, nome FROM usuarios";
-        $result_usuarios = $conn->query($sql_usuarios);
+        $sql_adm = "SELECT id, nome FROM adm";
+        $result_adm = $conn->query($sql_adm);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -49,7 +49,7 @@
       left: 0;/* Ajusta a posição para o fundo */
       width: 100%;/* Preenche toda a largura da tela */
       height: 70%;/* Preenche 70% da altura da tela */
-      background: linear-gradient(to bottom, #0a1b7e, #0080ff);/* Cria um gradiente azul */
+      background: linear-gradient(to bottom, #ff7606ff, #0080ff);/* Cria um gradiente azul */
       position: absolute;/* Coloca a faixa atrás do conteúdo principal */
       background-color: #0038a0;
       clip-path: polygon(0 25%, 100% 0%, 100% 100%, 0% 100%);/* Inclinada para baixo */
@@ -138,7 +138,7 @@
     }
 
     /* Input de ID menor */
-    #usuario_id {
+    #adm_id {
       width: 60px;
       padding: 8px;
       border: 1px solid #ccc;
@@ -153,7 +153,7 @@
     #nome {
       width: 60%;
     }
-     button { 
+    button { 
             margin-bottom: 20px; 
             padding: 10px 15px; 
             border: none; 
@@ -168,11 +168,16 @@
   </style>
 </head>
 <body>
+  
   <div class="faixa-inclinada"></div>
 
+
+        
   <div class="container">
     <h1>BEM VINDO AO SISTEMA</h1>
     <p>ACESSE O SISTEMA COM USUÁRIO E SENHA</p>
+
+
 
     <form action="teste_login.php" method="post">
       <div style="width: 100%;">
@@ -183,16 +188,16 @@
     -->
         <label for="usuario">🤵</label>
             <div class="usuario-linha">
-              <input type="text" id="usuario_id" name="usuario_id" placeholder="ID"  autofocus>
+              <input type="text" id="adm_id" name="adm_id" placeholder="ID"  autofocus>
               <select  id="nome" class="nome" name="nome" required  >
                         <option value="">Selecione</option>
                         <?php
-                        if ($result_usuarios && $result_usuarios->num_rows > 0) {
-                            while($row = $result_usuarios->fetch_assoc()) {
+                        if ($result_adm && $result_adm->num_rows > 0) {
+                            while($row = $result_adm->fetch_assoc()) {
                               echo "<option value='" . $row['nome'] . "' data-id='" . $row['id'] . "'>" . $row['nome'] . "</option>";
                             }
                         } else {
-                            echo "<option value=''>Nenhum usuário encontrado</option>";
+                            echo "<option value=''>Nenhum administrador encontrado</option>";
                         }
                         ?>
               </select>
@@ -204,13 +209,14 @@
       </div>
       <input type="submit" name="submit" value="Enviar">
     </form><br><br>
-        <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/gestao.php/index.php'">Gestão</button>
+    
+        <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/index.php'">Voltar</button>
 
   </div>
     <script>
 
-     // Quando o administrador digitar um ID, procurar o nome correspondente
-      document.getElementById('usuario_id').addEventListener('input', function() {
+      // Quando o administrador digitar um ID, procurar o nome correspondente
+      document.getElementById('adm_id').addEventListener('input', function() {
         const idDigitado = this.value;
         const selectNome = document.getElementById('nome');
         let encontrado = false;
@@ -234,7 +240,7 @@
         }
       });
 
-       const usuarioInput = document.getElementById('usuario_id');
+       const admInput = document.getElementById('adm_id');
        const selectNome = document.getElementById('nome');
 
       // Quando selecionar um usuário no select, preencher o campo ID automaticamente
@@ -243,13 +249,13 @@
         const idUsuario = opcaoSelecionada.dataset.id || "";
 
         // Preenche o campo ID com o data-id correspondente
-        usuarioInput.value = idUsuario;
+        admInput.value = idUsuario;
 
         // Se não houver data-id, mostra alerta
         if (idUsuario === "") {
           alert("ID do usuário não encontrado para esta opção!");
-          usuarioInput.value = "";
-          usuarioInput.focus();
+          admInput.value = "";
+          admInput.focus();
         }
       });
       // Captura todos os elementos de input, select e textarea
@@ -269,5 +275,6 @@
         });
       });
   </script>
+  
 </body>
 </html>   

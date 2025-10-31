@@ -84,13 +84,12 @@
 </head>
 <body>
     <div class="box">
-    <button><a href="http://localhost/controle_combustivel/estoque_RVC/file_estoque/listar_estoque.php"class="btn btn-danger me-5">ESTOQUE</a></button>
+    <button><a href="http://localhost/controle_combustivel/estoque_RVC/gestao.php/listar_tudo_estoque.php"class="btn btn-danger me-5">ESTOQUE</a></button>
 
-    <button><a href="http://localhost/controle_combustivel/estoque_RVC/file_entradas.php/listar_entradas.php" class="btn btn-danger me-5">ENTRADAS</a></button>
+    <button><a href="http://localhost/controle_combustivel/estoque_RVC/gestao.php/listar_todas_entradas.php" class="btn btn-danger me-5">ENTRADAS</a></button>
 
-    <button><a href="http://localhost/controle_combustivel/estoque_RVC/file_vendas_anterior.php/listar_vendas.php" class="btn btn-danger me-5">VENDAS ANTERIOR</a></button>
+    <button><a href="http://localhost/controle_combustivel/estoque_RVC/gestao.php/listar_todas_vendas.php" class="btn btn-danger me-5">VENDAS ANTERIOR</a></button>
 
-    <button><a href="http://localhost/controle_combustivel/estoque_RVC/gestao.php/index.php" class="btn btn-danger me-5">GESTÃO</a></button>
 
 
 <!--    <button><a href="mesa_4.php" class="btn btn-danger me-5">Mesa 4</a></button>

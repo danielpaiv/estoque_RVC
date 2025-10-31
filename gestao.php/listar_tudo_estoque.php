@@ -42,7 +42,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>LISTAR TODOS</title>
+    <title>LISTAR ESTOQUE</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -175,6 +175,13 @@
             text-align: left;
            
         }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #007BFF;
+            color: white;
+        }
 
         .tabela-header th {
             position: sticky;
@@ -217,9 +224,8 @@
 <body>
     <!--<div class="faixa-inclinada"></div>-->
     <header>
-        <h1>LISTAR TODOS</h1>
-        <button onclick="window.location.href='listar_estoque.php'">Voltar</button>
-        <button onclick="window.location.href='formulario_estoque.php'">Adicionar</button>
+        <h1>LISTAR ESTOQUE</h1>
+        <button onclick="window.location.href='painel.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
          <label for="usuario"></label>

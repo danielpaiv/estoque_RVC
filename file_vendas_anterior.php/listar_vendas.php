@@ -7,7 +7,7 @@
         unset($_SESSION['nome']);
         unset($_SESSION['senha']);
         unset($_SESSION['user_id']);
-        header('Location: http://localhost/controle_combustivel/estoque_ANP/index.php');
+        header('Location: http://localhost/controle_combustivel/estoque_RVC/index.php');
         exit();  // Importante adicionar o exit() após o redirecionamento
         }
 
@@ -29,9 +29,34 @@
             $sql_produtos = "SELECT id, produto FROM produtos";
             $result_produtos = $conn->query($sql_produtos);
 
-            // Consultar os postos no estoque
-            $sql_postos = "SELECT id, posto FROM postos";
-            $result_postos = $conn->query($sql_postos);
+            // Consultar apenas os postos que o usuário pode acessar
+    $sql_postos = "
+        SELECT p.id, p.posto
+        FROM postos p
+        INNER JOIN usuarios_postos up ON up.posto_id = p.id
+        WHERE up.usuario_id = ?
+        ORDER BY p.posto
+    ";
+    $stmt_postos = $conn->prepare($sql_postos);
+    $stmt_postos->bind_param("i", $user_id);
+    $stmt_postos->execute();
+    $result_postos = $stmt_postos->get_result();
+
+    // Quando o usuário seleciona um posto
+    if (isset($_POST['posto']) && !empty($_POST['posto'])) {
+        $_SESSION['posto_id'] = $_POST['posto'];
+
+        // Buscar o nome do posto
+        $sql_nome = "SELECT posto FROM postos WHERE id = ?";
+        $stmt_nome = $conn->prepare($sql_nome);
+        $stmt_nome->bind_param("i", $_SESSION['posto_id']);
+        $stmt_nome->execute();
+        $result_nome = $stmt_nome->get_result();
+        if ($result_nome->num_rows > 0) {
+            $posto_nome = $result_nome->fetch_assoc()['posto'];
+            $_SESSION['posto_nome'] = $posto_nome;
+        }
+    }
 
 
 ?>
@@ -175,6 +200,14 @@
            
         }
 
+         tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+
         .tabela-header th {
             position: sticky;
             top: 135px; /* Ajuste conforme o layout */
@@ -217,8 +250,7 @@
 <body>
     <header>
         <h1>VENDAS DIA ANTERIOR</h1>
-        <button onclick="window.location.href='formulario_vendas_dia_anterior.php'">Voltar</button>
-        <button onclick="window.location.href='listar_todas_vendas.php'">Tudo</button>
+        <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/painel.php'">Voltar</button>
         <button onclick="window.location.href='formulario_vendas_dia_anterior.php'">Adicionar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
@@ -234,7 +266,8 @@
             <?php
                 if ($result_postos && $result_postos->num_rows > 0) {
                     while($row = $result_postos->fetch_assoc()) {
-                        echo "<option value='" . $row['posto'] . "'>" . $row['posto'] . "</option>";
+                        $selected = (isset($_SESSION['posto_id']) && $_SESSION['posto_id'] == $row['id']) ? 'selected' : '';
+                    echo "<option value='" . $row['posto'] . "' $selected>" . $row['posto'] . "</option>";
                     }
                 } else {
                     echo "<option value=''>Nenhum posto encontrado</option>";
@@ -267,7 +300,7 @@
             <tr class="tabela-header">
                 <th>id</th>
                 <th>Usuario</th>
-                <th>user_ID</th>
+                <!--<th>user_ID</th>-->
                 <th>Posto</th>
                 <th>Produto</th>
                 <th>Quantidade</th>
@@ -282,7 +315,7 @@
                     <tr>
                         <td><?php echo $row['id']; ?></td>
                         <td><?php echo $row['nome']; ?></td>
-                        <td><?php echo $row['user_id']; ?></td>
+                        <!--<td><?php echo $row['user_id']; ?></td>-->
                         <td><?php echo $row['posto']; ?></td>
                         <td><?php echo $row['produto']; ?></td>
                         <td><?php echo $row['quantidade']; ?></td>

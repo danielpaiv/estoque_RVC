@@ -5,7 +5,7 @@
          if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
           unset($_SESSION['nome']);
           unset($_SESSION['senha']);
-          header('Location: http://localhost/controle_combustivel/estoque_ANP/index.php');
+          header('Location: http://localhost/controle_combustivel/estoque_RVC/index.php');
           exit();  // Importante adicionar o exit() após o redirecionamento
         }
        $user_id = $_SESSION['user_id']; // Recupera o user_id da sessão

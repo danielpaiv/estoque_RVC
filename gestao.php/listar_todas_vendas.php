@@ -16,7 +16,7 @@
             $user_id = $_SESSION['user_id'];
 
             // Consultar as entradas
-            $sql = "SELECT * FROM entradas ORDER BY id DESC";
+            $sql = "SELECT * FROM vendas ORDER BY id DESC";
             $result = $conn->query($sql);
 
             // Consultar os produtos no estoque
@@ -40,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR TODAS AS ENTRADAS</title>
+    <title>LISTAR VENDAS</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -147,6 +147,13 @@
             text-align: left;
            
         }
+         tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #007BFF;
+            color: white;
+        }
         .tabela-header th {
             position: sticky;
             top: 155px; /* Ajuste conforme o layout */
@@ -193,9 +200,8 @@
 </head>
 <body>
      <header>
-        <h1>LISTAR TODAS AS ENTRADAS</h1>
-        <button onclick="window.location.href='listar_entradas.php'">Voltar</button>
-        <button onclick="window.location.href='formulario_entradas.php'">Adicionar</button>
+        <h1>LISTAR VENDAS</h1>
+        <button onclick="window.location.href='painel.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
           <label for="usuario"></label>
@@ -261,7 +267,7 @@
                 <th>Posto</th>
                 <th>Produto</th>
                 <th>Quantidade</th>
-                <th>Data de Entrada</th>
+                <th>Data venda</th>
                 
             </tr>
         </thead>
@@ -277,7 +283,7 @@
                     echo "<td>" . $row['posto'] . "</td>";
                     echo "<td>" . $row['produto'] . "</td>";
                     echo "<td>" . $row['quantidade'] . "</td>";
-                    echo "<td>" . $row['data_entrada'] . "</td>";
+                    echo "<td>" . $row['data_venda'] . "</td>";
                     //echo "<td><a href='editar_entradas.php?id=" . $row['id'] . "' class='btn-editar'>Editar</a> <a href='excluir_entradas.php?id=" . $row['id'] . "' class='btn-excluir'onclick=\"return confirm('Tem certeza que deseja excluir este item?')\">Excluir</a></td>";
                     echo "</tr>";
                 }
@@ -304,7 +310,7 @@
                     // Reabrir a conexão para a nova consulta
                     include('conexao.php');
 
-                    $sql_gasolina_comum = "SELECT SUM(quantidade) AS total_gasolina_comum FROM entradas WHERE produto = 'GASOLINA COMUM'";
+                    $sql_gasolina_comum = "SELECT SUM(quantidade) AS total_gasolina_comum FROM vendas WHERE produto = 'GASOLINA COMUM'";
                     $result_gasolina_comum = $conn->query($sql_gasolina_comum);
                     $row_gasolina_comum = $result_gasolina_comum->fetch_assoc();
                     echo $row_gasolina_comum['total_gasolina_comum'] ? $row_gasolina_comum['total_gasolina_comum'] . ' L' : '0 L';
@@ -318,7 +324,7 @@
                     // Reabrir a conexão para a nova consulta
                     include('conexao.php');
 
-                    $sql_gasolina_dura_mais = "SELECT SUM(quantidade) AS total_gasolina_dura_mais FROM entradas WHERE produto = 'GASOLINA DURA MAIS'";
+                    $sql_gasolina_dura_mais = "SELECT SUM(quantidade) AS total_gasolina_dura_mais FROM vendas WHERE produto = 'GASOLINA DURA MAIS'";
                     $result_gasolina_dura_mais = $conn->query($sql_gasolina_dura_mais);
                     $row_gasolina_dura_mais = $result_gasolina_dura_mais->fetch_assoc();
                     echo $row_gasolina_dura_mais['total_gasolina_dura_mais'] ? $row_gasolina_dura_mais['total_gasolina_dura_mais'] . ' L' : '0 L';
@@ -332,7 +338,7 @@
                     // Reabrir a conexão para a nova consulta
                     include('conexao.php');
 
-                    $sql_etanol = "SELECT SUM(quantidade) AS total_etanol FROM entradas WHERE produto = 'ETANOL'";
+                    $sql_etanol = "SELECT SUM(quantidade) AS total_etanol FROM vendas WHERE produto = 'ETANOL'";
                     $result_etanol = $conn->query($sql_etanol);
                     $row_etanol = $result_etanol->fetch_assoc();
                     echo $row_etanol['total_etanol'] ? $row_etanol['total_etanol'] . ' L' : '0 L';
@@ -347,7 +353,7 @@
                     // Reabrir a conexão para a nova consulta
                     include('conexao.php');
 
-                    $sql_diesel_s10 = "SELECT SUM(quantidade) AS total_diesel_s10 FROM entradas WHERE produto = 'DIESEL S10'";
+                    $sql_diesel_s10 = "SELECT SUM(quantidade) AS total_diesel_s10 FROM vendas WHERE produto = 'DIESEL S10'";
                     $result_diesel_s10 = $conn->query($sql_diesel_s10);
                     $row_diesel_s10 = $result_diesel_s10->fetch_assoc();
                     echo $row_diesel_s10['total_diesel_s10'] ? $row_diesel_s10['total_diesel_s10'] . ' L' : '0 L';

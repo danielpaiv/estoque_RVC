@@ -5,7 +5,7 @@
          if (!isset($_SESSION['nome']) || !isset($_SESSION['senha'])) {
                 unset($_SESSION['nome']);
                 unset($_SESSION['senha']);
-                header('Location: http://localhost/controle_combustivel/estoque_ANP/index.php');
+                header('Location: http://localhost/controle_combustivel/estoque_RVC/index.php');
                 exit();  // Importante adicionar o exit() após o redirecionamento
             }
 
@@ -34,9 +34,34 @@
             $sql_produtos = "SELECT id, produto FROM produtos";
             $result_produtos = $conn->query($sql_produtos);
 
-            // Consultar os postos no estoque
-            $sql_postos = "SELECT id, posto FROM postos";
-            $result_postos = $conn->query($sql_postos);
+             // Consultar apenas os postos que o usuário pode acessar
+    $sql_postos = "
+        SELECT p.id, p.posto
+        FROM postos p
+        INNER JOIN usuarios_postos up ON up.posto_id = p.id
+        WHERE up.usuario_id = ?
+        ORDER BY p.posto
+    ";
+    $stmt_postos = $conn->prepare($sql_postos);
+    $stmt_postos->bind_param("i", $user_id);
+    $stmt_postos->execute();
+    $result_postos = $stmt_postos->get_result();
+
+    // Quando o usuário seleciona um posto
+    if (isset($_POST['posto']) && !empty($_POST['posto'])) {
+        $_SESSION['posto_id'] = $_POST['posto'];
+
+        // Buscar o nome do posto
+        $sql_nome = "SELECT posto FROM postos WHERE id = ?";
+        $stmt_nome = $conn->prepare($sql_nome);
+        $stmt_nome->bind_param("i", $_SESSION['posto_id']);
+        $stmt_nome->execute();
+        $result_nome = $stmt_nome->get_result();
+        if ($result_nome->num_rows > 0) {
+            $posto_nome = $result_nome->fetch_assoc()['posto'];
+            $_SESSION['posto_nome'] = $posto_nome;
+        }
+    }
 
 
 ?>
@@ -164,7 +189,9 @@
             left: 0; 
             right: 0; 
             background: #fff; 
-            z-index: 1000; }
+            z-index: 1000; 
+        }
+
         table {
             background: #fff;
             border-collapse: collapse;
@@ -177,6 +204,13 @@
             padding: 8px;
             text-align: left;
            
+        }
+         tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #007BFF;
+            color: white;
         }
 
         .tabela-header th {
@@ -222,7 +256,7 @@
     <header>
         <h1>LISTA DE ESTOQUE</h1>
 
-        <button onclick="window.location.href='listar_tudo_estoque.php'">Todos</button>
+        <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/painel.php'">Voltar</button>
         <button onclick="window.location.href='formulario_estoque.php'">Adicionar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
@@ -235,7 +269,8 @@
             <?php
                 if ($result_postos && $result_postos->num_rows > 0) {
                     while($row = $result_postos->fetch_assoc()) {
-                        echo "<option value='" . $row['posto'] . "'>" . $row['posto'] . "</option>";
+                        $selected = (isset($_SESSION['posto_id']) && $_SESSION['posto_id'] == $row['id']) ? 'selected' : '';
+                echo "<option value='" . $row['posto'] . "' $selected>" . $row['posto'] . "</option>";
                     }
                 } else {
                     echo "<option value=''>Nenhum posto encontrado</option>";
@@ -269,7 +304,7 @@
     <thead>
         <tr class="tabela-header">
                 <th>ID</th>
-                <th>user_ID</th>
+                <!--<th>user_ID</th>-->
                 <th>Nome</th>
                 <th>Posto</th>
                 <th>Produto</th>
@@ -285,10 +320,10 @@
             <?php while($row = $result_estoque->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['id'] ?></td>
-                    <td><?= $row['user_id'] ?></td>
-                    <td><?= htmlspecialchars($row['nome']) ?></td>
-                    <td><?= htmlspecialchars($row['posto']) ?></td>
-                    <td><?= htmlspecialchars($row['produto']) ?></td>
+                    <!--<td><?= $row['user_id'] ?></td>-->
+                    <td><?= $row['nome'] ?></td>
+                    <td><?= $row['posto'] ?></td>
+                    <td><?= $row['produto'] ?></td>
                     <td><?= $row['estoque_sistema'] ?></td>
                     <td><?= $row['estoque_fisico'] ?></td>
                     <td><?= $row['diferenca'] ?></td>

@@ -6,7 +6,7 @@
                 unset($_SESSION['nome']);
                 unset($_SESSION['senha']);
                 unset($_SESSION['user_id']);
-                header('Location: http://localhost/controle_combustivel/estoque_ANP/index.php');
+                header('Location: http://localhost/controle_combustivel/estoque_RVC/index.php');
                 exit();  // Importante adicionar o exit() após o redirecionamento
             }
 
