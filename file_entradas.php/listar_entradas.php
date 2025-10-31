@@ -315,7 +315,7 @@
                     echo "<td>" . $row['produto'] . "</td>";
                     echo "<td>" . $row['quantidade'] . "</td>";
                     echo "<td>" . $row['data_entrada'] . "</td>";
-                    echo "<td><a href='editar_entradas.php?id=" . $row['id'] . "' class='btn-editar'>Editar</a> <a href='excluir_entradas.php?id=" . $row['id'] . "' class='btn-excluir'onclick=\"return confirm('Tem certeza que deseja excluir este item?')\">Excluir</a></td>";
+                    echo "<td><a href='confirmar_senha_editar.php?id=" . $row['id'] . "' class='btn-editar'>Editar</a> <a href='confirmar_senha.php?id=" . $row['id'] . "' class='btn-excluir'onclick=\"return confirm('Tem certeza que deseja excluir este item?')\">Excluir</a></td>";
                     echo "</tr>";
                 }
             } else {

@@ -262,7 +262,7 @@
         <thead>
             <tr class="tabela-header">
                 <th>ID</th>
-                <th>User ID</th>
+                <!--<th>User ID</th>-->
                 <th>Usuário</th>
                 <th>Posto</th>
                 <th>Produto</th>
@@ -278,7 +278,7 @@
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['user_id'] . "</td>";
+                    //echo "<td>" . $row['user_id'] . "</td>";
                     echo "<td>" . $row['nome'] . "</td>";
                     echo "<td>" . $row['posto'] . "</td>";
                     echo "<td>" . $row['produto'] . "</td>";
@@ -464,7 +464,7 @@
             const table = document.getElementById('clientesTabela');
             const tr = table.getElementsByTagName('tr');
             for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[2]; // coluna "Usuário"
+                const td = tr[i].getElementsByTagName('td')[1]; // coluna "Usuário"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {
@@ -482,7 +482,7 @@
             const table = document.getElementById('clientesTabela');
             const tr = table.getElementsByTagName('tr');
             for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[6]; // coluna "Data"
+                const td = tr[i].getElementsByTagName('td')[5]; // coluna "Data"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {
@@ -499,7 +499,7 @@
             const table = document.getElementById('clientesTabela');
             const tr = table.getElementsByTagName('tr');
             for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[4]; // coluna "Nome"
+                const td = tr[i].getElementsByTagName('td')[3]; // coluna "Nome"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
                     if (txtValue.toLowerCase().indexOf(filter) > -1) {
@@ -516,7 +516,7 @@
     const table = document.getElementById('clientesTabela');
     const tr = table.getElementsByTagName('tr');
     for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[3]; // coluna "Posto"
+                const td = tr[i].getElementsByTagName('td')[2]; // coluna "Posto"
                 if (td) {
                     const txtValue = td.textContent || td.innerText;
             if (txtValue.toLowerCase().indexOf(filter) > -1) {

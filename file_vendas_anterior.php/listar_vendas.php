@@ -321,8 +321,8 @@
                         <td><?php echo $row['quantidade']; ?></td>
                         <td><?php echo $row['data_venda']; ?></td>
                         <td>
-                            <a href="editar_vendas.php?id=<?php echo $row['id']; ?> " class="btn btn-editar">Editar</a> |
-                            <a href="excluir_vendas.php?id=<?php echo $row['id']; ?>"  class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta venda?');">Excluir</a>
+                            <a href="confirmar_senha_editar.php?id=<?php echo $row['id']; ?>" class="btn btn-editar">Editar</a> |
+                            <a href="confirmar_senha.php?id=<?php echo $row['id']; ?>"  class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir esta venda?');">Excluir</a>
                         </td>
                     </tr>
             <?php endwhile; ?>

@@ -329,8 +329,8 @@
                     <td><?= $row['diferenca'] ?></td>
                     <td><?= $row['data_venda'] ?></td>
                     <td>
-                        <a href="editar_estoque.php?id=<?= $row['id'] ?>" class="btn btn-editar">Editar</a>
-                        <a href="excluir_estoque.php?id=<?= $row['id'] ?>" class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este item?')">Excluir</a>
+                        <a href="confirmar_senha_editar.php?id=<?= $row['id'] ?>" class="btn btn-editar">Editar</a>
+                        <a href="confirmar_senha.php?id=<?= $row['id'] ?>" class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este item?')">Excluir</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
