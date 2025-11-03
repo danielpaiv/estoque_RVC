@@ -218,6 +218,39 @@
              color: #fff;
         }
 
+         #totalGasolinaComum {
+            font-weight: bold;
+            color: #ff0000b4;
+            text-align: right;
+            padding-right: 10px;
+
+        }
+        #totalGasolinaAditivada {
+            font-weight: bold;
+            color: #1565c0;
+            text-align: right;
+            padding-right: 10px;
+
+        }
+        #totalDiesel {
+            font-weight: bold;
+            color: #222222ff;
+            text-align: right;
+            padding-right: 10px;
+
+        }
+        #totalEtanol {
+            font-weight: bold;
+            color: #2e7d32;
+            text-align: right;
+            padding-right: 10px;
+
+        }
+        p {
+            font-size: 18px;
+            color: #fff;
+        }
+
             
     </style>
 </head>
@@ -229,7 +262,7 @@
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
          <label for="usuario"></label>
-        <select  id="filtroUsuario" class="filtro-servicos" onchange="filtrarUsuario()" name="nome" required autofocus>
+        <select  id="filtroUsuario" class="filtro-servicos" onchange="aplicarFiltros()" name="nome" required autofocus>
                   <option value="">Usuário</option>
                   <?php
                   if ($result_usuarios && $result_usuarios->num_rows > 0) {
@@ -243,10 +276,10 @@
         </select>
 
         <label for="dataFiltro">Filtrar Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
-        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>"oninput="filtrarData()" >
+        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>"oninput="aplicarFiltros()" >
 
         <label for="filtroPosto">Filtrar Posto:</label>
-        <select id="filtroPosto" class="filtro-servicos" onchange="filtrarPorPosto()">
+        <select id="filtroPosto" class="filtro-servicos" onchange="aplicarFiltros()">
             <option value="">Todos</option>
             <?php
                 if ($result_postos && $result_postos->num_rows > 0) {
@@ -260,7 +293,7 @@
         </select>
 
         <label for="filtroProduto">Filtrar Produto:</label>
-        <select id="filtroProduto" class="filtro-servicos" onchange="filtrarPorProduto()">
+        <select id="filtroProduto" class="filtro-servicos" onchange="aplicarFiltros()">
             <option value="">Todos</option>
             <?php
                 if ($result_produtos && $result_produtos->num_rows > 0) {
@@ -321,96 +354,119 @@
         <?php endif; ?>
     </tbody>
 </table>
-<p style="color:white">Usuário: <?php echo $nome; ?></p>
-<p style="color:white">ID: <?php echo $user_id; ?></p>
-<script>
 
+  <!-- Totais de Combustíveis
+    <div style="margin-top: 20px; width: 30%; background-color: #06161dff; padding: 10px;">
+    <p><strong>Total GASOLINA COMUM:</strong> <span id="totalGasolinaComum">0 L</span></p>
+    <p><strong>Total  GASOLINA DURA MAIS:</strong> <span id="totalGasolinaAditivada">0 L</span></p>
+    <p><strong>Total  DIESEL S10:</strong> <span id="totalDiesel">0 L</span></p>
+    <p><strong>Total  ETANOL:</strong> <span id="totalEtanol">0 L</span></p>
+    </div>
+  -->
+   <!--
+    <script>
+    // Função para somar os combustíveis visíveis na tabela
+        function somarCombustiveisVisiveis() {
+        const linhas = document.querySelectorAll("#clientesTabela tbody tr");
+        let totalGasolinaComum = 0;
+        let totalGasolinaAditivada = 0;
+        let totalDiesel = 0;
+        let totalEtanol = 0;
+
+        linhas.forEach(linha => {
+            // Verifica se a linha está visível
+            const estilo = window.getComputedStyle(linha);
+            if (estilo.display === "none") return; // ignora linhas ocultas
+
+            // Obtém o produto e a quantidade da linha
+            const produto = linha.cells[3]?.textContent.trim().toUpperCase();
+            const quantidade = parseFloat(linha.cells[4]?.textContent.trim()) || 0;
+
+            // Adiciona à soma correspondente
+            if (produto === "GASOLINA COMUM") totalGasolinaComum += quantidade;
+            if (produto === "GASOLINA DURA MAIS") totalGasolinaAditivada += quantidade;
+            if (produto === "DIESEL S10") totalDiesel += quantidade;
+            if (produto === "ETANOL") totalEtanol += quantidade;
+        });
+        // Atualiza os totais na página
+        document.getElementById("totalGasolinaComum").textContent = totalGasolinaComum.toFixed(2) + " L";// Atualiza o total no elemento HTML
+        document.getElementById("totalGasolinaAditivada").textContent = totalGasolinaAditivada.toFixed(2) + " L";
+        document.getElementById("totalDiesel").textContent = totalDiesel.toFixed(2) + " L";
+        document.getElementById("totalEtanol").textContent = totalEtanol.toFixed(2) + " L";
+        }
+
+        // Executa ao carregar
+        somarCombustiveisVisiveis();
+
+        // Atualiza automaticamente se houver filtros aplicados por JS
+        document.addEventListener("input", somarCombustiveisVisiveis);
+        document.addEventListener("change", somarCombustiveisVisiveis);
+    </script>
+   -->
+    <p style="color:white">Usuário: <?php echo $nome; ?></p>
+    <p style="color:white">ID: <?php echo $user_id; ?></p>
+
+     <script>
+    // Função para aplicar e limpar todos os filtros
         function limparFiltros() {
-            const table = document.getElementById('clientesTabela');
-            const button = document.getElementById('limparFiltros');
-            const tr = table.getElementsByTagName('tr');
+            // limpa os campos de filtro
+            document.getElementById('filtroUsuario').value = '';
             document.getElementById('dataFiltro').value = '';
             document.getElementById('filtroProduto').value = '';
             document.getElementById('filtroPosto').value = '';
-            document.getElementById('filtroUsuario').value = '';
-            filtrarData();
-            filtrarPorProduto();
-            filtrarPorPosto();
-            filtrarUsuario();
 
-        }
+            // reexibe todas as linhas da tabela
+            const linhas = document.querySelectorAll('#clientesTabela tbody tr');
+            linhas.forEach(linha => {
+                linha.style.display = '';
+            });
 
-         function filtrarUsuario() {
-            const input = document.getElementById('filtroUsuario');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[1]; // coluna "Usuário"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
+            // atualiza a soma visível (se existir)
+            if (typeof somarCombustiveisVisiveis === "function") {
+                somarCombustiveisVisiveis();
+            }
+            }
+        function aplicarFiltros() {
+        const usuarioFiltro = document.getElementById('filtroUsuario').value.toLowerCase();
+        const dataFiltro = document.getElementById('dataFiltro').value.toLowerCase();
+        const nomeFiltro = document.getElementById('filtroProduto').value.toLowerCase();
+        const postoFiltro = document.getElementById('filtroPosto').value.toLowerCase();
+
+        const tabela = document.getElementById('clientesTabela');
+        const linhas = tabela.getElementsByTagName('tr');
+
+        for (let i = 1; i < linhas.length; i++) {
+            const colUsuario = linhas[i].getElementsByTagName('td')[1]; // Usuário
+            const colPosto = linhas[i].getElementsByTagName('td')[2];   // Posto
+            const colProduto = linhas[i].getElementsByTagName('td')[3]; // Produto
+            const colData = linhas[i].getElementsByTagName('td')[7];    // Data
+
+            if (colUsuario && colPosto && colProduto && colData) {
+            const usuario = colUsuario.textContent.toLowerCase();
+            const posto = colPosto.textContent.toLowerCase();
+            const produto = colProduto.textContent.toLowerCase();
+            const data = colData.textContent.toLowerCase();
+
+            const condUsuario = usuarioFiltro === "" || usuario.includes(usuarioFiltro);
+            const condPosto = postoFiltro === "" || posto.includes(postoFiltro);
+            const condProduto = nomeFiltro === "" || produto.includes(nomeFiltro);
+            const condData = dataFiltro === "" || data.includes(dataFiltro);
+
+            // só mostra se atender a todos os filtros ativos
+            if (condUsuario && condPosto && condProduto && condData) {
+                linhas[i].style.display = "";
+            } else {
+                linhas[i].style.display = "none";
+            }
             }
         }
 
-        function filtrarData() {
-            const input = document.getElementById('dataFiltro');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[7]; // coluna "Data"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
+        // Atualiza soma dos combustíveis visíveis (se existir essa função)
+        if (typeof somarCombustiveisVisiveis === "function") {
+            somarCombustiveisVisiveis();
         }
-        function filtrarPorProduto() {
-            const input = document.getElementById('filtroProduto');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[3]; // coluna "Nome"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
         }
-
-        function filtrarPorPosto() {
-            const input = document.getElementById('filtroPosto');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[2]; // coluna "Posto"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
-        }
-</script>
+    </script>
 </body>
 </html>
 

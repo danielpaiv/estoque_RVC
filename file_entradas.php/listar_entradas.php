@@ -251,10 +251,10 @@
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
         <label for="dataFiltro">Filtrar por Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
-        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>" oninput="filtrarData()">
+        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>" oninput="aplicarFiltros()">
 
         <label for="filtroPosto">Filtrar por Posto:</label>
-        <select id="filtroPosto" class="filtro-servicos" onchange="filtrarPorPosto()">
+        <select id="filtroPosto" class="filtro-servicos" onchange="aplicarFiltros()">
 
         
 
@@ -274,7 +274,7 @@
            
 
         <label for="filtroNome">Filtrar por Produto:</label>
-        <select id="filtroNome" class="filtro-servicos" onchange="filtrarPorNome()">
+        <select id="filtroNome" class="filtro-servicos" onchange="aplicarFiltros()">
             <option value="">Todos</option>
             <?php
                 if ($result_produtos && $result_produtos->num_rows > 0) {
@@ -327,146 +327,72 @@
         </tbody>
        
     </table>
-    <table id="tabela-soma">
-         <thead>
-            <tr class="tabela-soma">
-                <th style="background-color: #d32f2f; color: white;">GASOLINA COMUM</th>
-                <th style="background-color: #1565c0; color: white;">GASOLINA DURA MAIS</th>
-                <th style="background-color: #2e7d32; color: white;">ETANOL</th>
-                <th style="background-color: #424242; color: white;">DIESEL S10</th>
-            </tr>
-        </thead>
-         <tbody>
-            <tr>
-                <td>
-                    <?php
-                    // Reabrir a conexão para a nova consulta
-                    include('conexao.php');
-
-                    $sql_gasolina_comum = "SELECT SUM(quantidade) AS total_gasolina_comum FROM entradas WHERE produto = 'GASOLINA COMUM'";
-                    $result_gasolina_comum = $conn->query($sql_gasolina_comum);
-                    $row_gasolina_comum = $result_gasolina_comum->fetch_assoc();
-                    echo $row_gasolina_comum['total_gasolina_comum'] ? $row_gasolina_comum['total_gasolina_comum'] . ' L' : '0 L';
-
-                    // Fechar a conexão
-                    $conn->close();
-                    ?>
-                </td>
-                <td>
-                    <?php
-                    // Reabrir a conexão para a nova consulta
-                    include('conexao.php');
-
-                    $sql_gasolina_dura_mais = "SELECT SUM(quantidade) AS total_gasolina_dura_mais FROM entradas WHERE produto = 'GASOLINA DURA MAIS'";
-                    $result_gasolina_dura_mais = $conn->query($sql_gasolina_dura_mais);
-                    $row_gasolina_dura_mais = $result_gasolina_dura_mais->fetch_assoc();
-                    echo $row_gasolina_dura_mais['total_gasolina_dura_mais'] ? $row_gasolina_dura_mais['total_gasolina_dura_mais'] . ' L' : '0 L';
-
-                    // Fechar a conexão
-                    $conn->close();
-                    ?>
-                </td>
-                <td>
-                    <?php
-                    // Reabrir a conexão para a nova consulta
-                    include('conexao.php');
-
-                    $sql_etanol = "SELECT SUM(quantidade) AS total_etanol FROM entradas WHERE produto = 'ETANOL'";
-                    $result_etanol = $conn->query($sql_etanol);
-                    $row_etanol = $result_etanol->fetch_assoc();
-                    echo $row_etanol['total_etanol'] ? $row_etanol['total_etanol'] . ' L' : '0 L';
-
-                    // Fechar a conexão
-                    $conn->close();
-                    ?>
-                </td>
-                <td>
-                    
-                    <?php
-                    // Reabrir a conexão para a nova consulta
-                    include('conexao.php');
-
-                    $sql_diesel_s10 = "SELECT SUM(quantidade) AS total_diesel_s10 FROM entradas WHERE produto = 'DIESEL S10'";
-                    $result_diesel_s10 = $conn->query($sql_diesel_s10);
-                    $row_diesel_s10 = $result_diesel_s10->fetch_assoc();
-                    echo $row_diesel_s10['total_diesel_s10'] ? $row_diesel_s10['total_diesel_s10'] . ' L' : '0 L';
-
-                    // Fechar a conexão
-                    $conn->close();
-                    ?>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+   
 
         <p style="color:white">Usuário: <?php echo $nome; ?></p>
         <p style="color:white">ID: <?php echo $user_id; ?></p>
 
-    <script>
-
+   <script>
+    // Função para filtrar e limpar todos os filtros
         function limparFiltros() {
-            const table = document.getElementById('clientesTabela');
-            const button = document.getElementById('limparFiltros');
-            const tr = table.getElementsByTagName('tr');
+            // limpa os campos de filtro
+            
             document.getElementById('dataFiltro').value = '';
             document.getElementById('filtroNome').value = '';
             document.getElementById('filtroPosto').value = '';
-            filtrarData();
-            filtrarPorNome();
-            filtrarPorPosto();
 
-        }
-        function filtrarData() {
-            const input = document.getElementById('dataFiltro');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[5]; // coluna "Data"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
+            // reexibe todas as linhas da tabela
+            const linhas = document.querySelectorAll('#clientesTabela tbody tr');
+            linhas.forEach(linha => {
+                linha.style.display = '';
+            });
+
+            // atualiza a soma visível (se existir)
+            if (typeof somarCombustiveisVisiveis === "function") {
+                somarCombustiveisVisiveis();
+            }
+            }
+        function aplicarFiltros() {
+        
+        const dataFiltro = document.getElementById('dataFiltro').value.toLowerCase();
+        const nomeFiltro = document.getElementById('filtroNome').value.toLowerCase();
+        const postoFiltro = document.getElementById('filtroPosto').value.toLowerCase();
+
+        const tabela = document.getElementById('clientesTabela');
+        const linhas = tabela.getElementsByTagName('tr');
+
+        for (let i = 1; i < linhas.length; i++) {
+            
+            const colPosto = linhas[i].getElementsByTagName('td')[2];   // Posto
+            const colProduto = linhas[i].getElementsByTagName('td')[3]; // Produto
+            const colData = linhas[i].getElementsByTagName('td')[5];    // Data
+
+            if ( colPosto && colProduto && colData) {
+            
+            const posto = colPosto.textContent.toLowerCase();
+            const produto = colProduto.textContent.toLowerCase();
+            const data = colData.textContent.toLowerCase();
+
+            
+            const condPosto = postoFiltro === "" || posto.includes(postoFiltro);
+            const condProduto = nomeFiltro === "" || produto.includes(nomeFiltro);
+            const condData = dataFiltro === "" || data.includes(dataFiltro);
+
+            // só mostra se atender a todos os filtros ativos
+            if (condPosto && condProduto && condData) {
+                linhas[i].style.display = "";
+            } else {
+                linhas[i].style.display = "none";
+            }
             }
         }
-        function filtrarPorNome() {
-            const input = document.getElementById('filtroNome');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[3]; // coluna "Nome"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
+
+        // Atualiza soma dos combustíveis visíveis (se existir essa função)
+        if (typeof somarCombustiveisVisiveis === "function") {
+            somarCombustiveisVisiveis();
         }
-        function filtrarPorPosto() {
-            const input = document.getElementById('filtroPosto');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('clientesTabela');
-            const tr = table.getElementsByTagName('tr');
-            for (let i = 1; i < tr.length; i++) {
-                const td = tr[i].getElementsByTagName('td')[2]; // coluna "Posto"
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = '';
-                    } else {
-                        tr[i].style.display = 'none';
-                    }
-                }
-            }
         }
-</script>
+    </script>
+
 </body>
 </html>

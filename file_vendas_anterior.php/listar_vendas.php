@@ -255,10 +255,10 @@
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
         <label for="dataFiltro">Filtrar por Data:</label><?php date_default_timezone_set('America/Sao_Paulo'); ?>
-        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>" oninput="filtrarData()">
+        <input type="date" id="dataFiltro" value="<?php echo date('Y-m-d'); ?>" oninput="aplicarFiltros()">
 
         <label for="filtroPosto">Filtrar por Posto:</label>
-        <select id="filtroPosto" class="filtro-servicos" onchange="filtrarPorPosto()">
+        <select id="filtroPosto" class="filtro-servicos" onchange="aplicarFiltros()">
 
         
 
@@ -278,7 +278,7 @@
            
 
         <label for="filtroNome">Filtrar por Produto:</label>
-        <select id="filtroNome" class="filtro-servicos" onchange="filtrarPorNome()">
+        <select id="filtroNome" class="filtro-servicos" onchange="aplicarFiltros()">
             <option value="">Todos</option>
             <?php
                 if ($result_produtos && $result_produtos->num_rows > 0) {
@@ -335,70 +335,68 @@
     </table>
     <p style="color:white">Usuário: <?php echo $nome; ?></p>
     <p style="color:white">ID: <?php echo $user_id; ?></p>
-        <script>
-            function limparFiltros() {
-                    const table = document.getElementById('clientesTabela');
-                    const button = document.getElementById('limparFiltros');
-                    const tr = table.getElementsByTagName('tr');
-                    document.getElementById('dataFiltro').value = '';
-                    document.getElementById('filtroNome').value = '';
-                    document.getElementById('filtroPosto').value = '';
-                    filtrarData();
-                    filtrarPorNome();
-                    filtrarPorPosto();
 
-                }
-                function filtrarData() {
-                    const input = document.getElementById('dataFiltro');
-                    const filter = input.value.toLowerCase();
-                    const table = document.getElementById('clientesTabela');
-                    const tr = table.getElementsByTagName('tr');
-                    for (let i = 1; i < tr.length; i++) {
-                        const td = tr[i].getElementsByTagName('td')[6]; // coluna "Data"
-                        if (td) {
-                            const txtValue = td.textContent || td.innerText;
-                            if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                                tr[i].style.display = '';
-                            } else {
-                                tr[i].style.display = 'none';
-                            }
-                        }
-                    }
-                }
-                function filtrarPorNome() {
-                    const input = document.getElementById('filtroNome');
-                    const filter = input.value.toLowerCase();
-                    const table = document.getElementById('clientesTabela');
-                    const tr = table.getElementsByTagName('tr');
-                    for (let i = 1; i < tr.length; i++) {
-                        const td = tr[i].getElementsByTagName('td')[4]; // coluna "Nome"
-                        if (td) {
-                            const txtValue = td.textContent || td.innerText;
-                            if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                                tr[i].style.display = '';
-                            } else {
-                                tr[i].style.display = 'none';
-                            }
-                        }
-                    }
-                }
-                function filtrarPorPosto() {
-                    const input = document.getElementById('filtroPosto');
-                    const filter = input.value.toLowerCase();
-                    const table = document.getElementById('clientesTabela');
-                    const tr = table.getElementsByTagName('tr');
-                    for (let i = 1; i < tr.length; i++) {
-                        const td = tr[i].getElementsByTagName('td')[3]; // coluna "Posto"
-                        if (td) {
-                            const txtValue = td.textContent || td.innerText;
-                            if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                                tr[i].style.display = '';
-                            } else {
-                                tr[i].style.display = 'none';
-                            }
-                        }
-                    }
-                }
-        </script>
+       <script>
+    // Função para filtrar e limpar todos os filtros
+        function limparFiltros() {
+            // limpa os campos de filtro
+            
+            document.getElementById('dataFiltro').value = '';
+            document.getElementById('filtroNome').value = '';
+            document.getElementById('filtroPosto').value = '';
+
+            // reexibe todas as linhas da tabela
+            const linhas = document.querySelectorAll('#clientesTabela tbody tr');
+            linhas.forEach(linha => {
+                linha.style.display = '';
+            });
+
+            // atualiza a soma visível (se existir)
+            if (typeof somarCombustiveisVisiveis === "function") {
+                somarCombustiveisVisiveis();
+            }
+            }
+
+        function aplicarFiltros() {
+        
+        const dataFiltro = document.getElementById('dataFiltro').value.toLowerCase();
+        const nomeFiltro = document.getElementById('filtroNome').value.toLowerCase();
+        const postoFiltro = document.getElementById('filtroPosto').value.toLowerCase();
+
+        const tabela = document.getElementById('clientesTabela');
+        const linhas = tabela.getElementsByTagName('tr');
+
+        for (let i = 1; i < linhas.length; i++) {
+            
+            const colPosto = linhas[i].getElementsByTagName('td')[2];   // Posto
+            const colProduto = linhas[i].getElementsByTagName('td')[3]; // Produto
+            const colData = linhas[i].getElementsByTagName('td')[5];    // Data
+
+            if ( colPosto && colProduto && colData) {
+            
+            const posto = colPosto.textContent.toLowerCase();
+            const produto = colProduto.textContent.toLowerCase();
+            const data = colData.textContent.toLowerCase();
+
+            
+            const condPosto = postoFiltro === "" || posto.includes(postoFiltro);
+            const condProduto = nomeFiltro === "" || produto.includes(nomeFiltro);
+            const condData = dataFiltro === "" || data.includes(dataFiltro);
+
+            // só mostra se atender a todos os filtros ativos
+            if (condPosto && condProduto && condData) {
+                linhas[i].style.display = "";
+            } else {
+                linhas[i].style.display = "none";
+            }
+            }
+        }
+
+        // Atualiza soma dos combustíveis visíveis (se existir essa função)
+        if (typeof somarCombustiveisVisiveis === "function") {
+            somarCombustiveisVisiveis();
+        }
+        }
+    </script>
 </body>
 </html>

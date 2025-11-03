@@ -182,10 +182,7 @@
     <form action="teste_login.php" method="post">
       <div style="width: 100%;">
 
-    <!--  
-        <label for="usuario_id">🆔 ID do Usuário:</label>
-        <input type="number" id="usuario_id" name="usuario_id" placeholder="Digite o ID" required>
-    -->
+   
         <label for="usuario">🤵</label>
             <div class="usuario-linha">
               <input type="text" id="adm_id" name="adm_id" placeholder="ID"  autofocus>
@@ -214,8 +211,7 @@
 
   </div>
     <script>
-
-      // Quando o administrador digitar um ID, procurar o nome correspondente
+    // Quando o administrador digitar um ID, procurar o nome correspondente
       document.getElementById('adm_id').addEventListener('input', function() {
         const idDigitado = this.value;
         const selectNome = document.getElementById('nome');
