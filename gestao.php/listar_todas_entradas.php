@@ -359,10 +359,10 @@
             if (produto === "ETANOL") totalEtanol += quantidade;
         });
         // Atualiza os totais na página
-        document.getElementById("totalGasolinaComum").textContent = totalGasolinaComum.toFixed(2) + " L";// Atualiza o total no elemento HTML
-        document.getElementById("totalGasolinaAditivada").textContent = totalGasolinaAditivada.toFixed(2) + " L";
-        document.getElementById("totalDiesel").textContent = totalDiesel.toFixed(2) + " L";
-        document.getElementById("totalEtanol").textContent = totalEtanol.toFixed(2) + " L";
+        document.getElementById("totalGasolinaComum").textContent = totalGasolinaComum.toFixed(3) + " L";// Atualiza o total no elemento HTML
+        document.getElementById("totalGasolinaAditivada").textContent = totalGasolinaAditivada.toFixed(3) + " L";
+        document.getElementById("totalDiesel").textContent = totalDiesel.toFixed(3) + " L";
+        document.getElementById("totalEtanol").textContent = totalEtanol.toFixed(3) + " L";
         }
 
         // Executa ao carregar

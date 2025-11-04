@@ -235,7 +235,7 @@
       <button onclick="window.location.href='sair.php'">Sair ↩</button>
       <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_estoque/listar_estoque.php'">Estoque </button>
       <button onclick="window.location.href='listar_entradas.php'">Entradas </button>
-      <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_vendas_anterior.php/formulario_vendas_dia_anterior.php'">Vendas dia anterior </button>
+      <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/file_vendas_anterior.php/listar_vendas.php'">Vendas dia anterior </button>
 
 
       <form  action="salvar_entradas.php"  method="POST" >
