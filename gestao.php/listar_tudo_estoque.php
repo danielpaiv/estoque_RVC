@@ -251,6 +251,16 @@
             color: #fff;
         }
 
+        
+        .estoque-baixo {
+            background-color: #ff2e2eff; /* Cor de fundo vermelho claro */
+            font-weight: bold; /* Negrito para destacar */
+        }
+        .estoque-baixo:hover {
+            background-color: #f56200ff; /* Cor de fundo vermelho mais intenso ao passar o mouse */
+            color: #000000ff; /* Texto branco ao passar o mouse */
+        }
+
             
     </style>
 </head>
@@ -338,8 +348,15 @@
                     <td><?= htmlspecialchars($row['nome']) ?></td>
                     <td><?= htmlspecialchars($row['posto']) ?></td>
                     <td><?= htmlspecialchars($row['produto']) ?></td>
-                    <td><?= $row['estoque_sistema'] ?></td>
-                    <td><?= $row['estoque_fisico'] ?></td>
+
+                     <!-- Coluna Estoque do Sistema -->
+                    <td class="<?= ($row['estoque_sistema'] < 2500) ? 'estoque-baixo' : '' ?>">
+                        <?= $row['estoque_sistema'] ?>
+                    </td>
+                    <td class="<?= ($row['estoque_fisico'] < 2500) ? 'estoque-baixo' : '' ?>">
+                        <?= $row['estoque_fisico'] ?>
+                    </td>
+
                     <td><?= $row['diferenca'] ?></td>
                     <td><?= $row['data_venda'] ?></td>
                     <!--<td>
