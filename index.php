@@ -23,7 +23,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>LOGIN | RVC</title>
+  <title>CADASTRUM</title>
   <style>
     * {/* Reseta o padding e margin de todos os elementos */
       margin: 0;/* Reseta a margem de todos os elementos */

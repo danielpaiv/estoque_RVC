@@ -42,7 +42,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>LISTAR ESTOQUE</title>
+    <title>ESTOQUE</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -267,7 +267,7 @@
 <body>
     <!--<div class="faixa-inclinada"></div>-->
     <header>
-        <h1>LISTAR ESTOQUE</h1>
+        <h1>ESTOQUE</h1>
         <button onclick="window.location.href='painel.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 

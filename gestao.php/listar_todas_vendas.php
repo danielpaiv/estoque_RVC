@@ -40,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR VENDAS</title>
+    <title>VENDAS DIA ANTERIOR</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -232,7 +232,7 @@
 </head>
 <body>
      <header>
-        <h1>LISTAR VENDAS</h1>
+        <h1>VENDAS DIA ANTERIOR</h1>
         <button onclick="window.location.href='painel.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 

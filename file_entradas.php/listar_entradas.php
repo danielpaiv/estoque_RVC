@@ -72,7 +72,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR ESNTRADAS</title>
+    <title>ESNTRADAS</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -245,7 +245,7 @@
 </head>
 <body>
      <header>
-        <h1>LISTA DE ENTRADAS</h1>
+        <h1>ENTRADAS</h1>
         <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/painel.php'">Voltar</button>
         <button onclick="window.location.href='formulario_entradas.php'">Adicionar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>

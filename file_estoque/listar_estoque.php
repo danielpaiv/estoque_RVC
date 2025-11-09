@@ -70,7 +70,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>LISTAR ESTOQUE</title>
+    <title>ESTOQUE</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -254,7 +254,8 @@
 <body>
     <!--<div class="faixa-inclinada"></div>-->
     <header>
-        <h1>LISTA DE ESTOQUE</h1>
+        <h1>ESTOQUE</h1>
+        
 
         <button onclick="window.location.href='http://localhost/controle_combustivel/estoque_RVC/painel.php'">Voltar</button>
         <button onclick="window.location.href='formulario_estoque.php'">Adicionar</button>

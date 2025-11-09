@@ -40,7 +40,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTAR ENTRADAS</title>
+    <title>ENTRADAS</title>
     <style>
         body { 
             font-family: Arial, sans-serif;
@@ -233,7 +233,7 @@
 </head>
 <body>
      <header>
-        <h1>LISTAR ENTRADAS</h1>
+        <h1>ENTRADAS</h1>
         <button onclick="window.location.href='painel.php'">Voltar</button>
         <button class="limpar" id="limparFiltros" onclick="limparFiltros()">Limpar Filtros</button>
 
@@ -328,10 +328,10 @@
     </table>
     <!-- Totais de Combustíveis -->
     <div style="margin-top: 20px; width: 30%; background-color: #06161dff; padding: 10px;">
-    <p><strong>Total GASOLINA COMUM:</strong> <span id="totalGasolinaComum">0 L</span></p>
-    <p><strong>Total  GASOLINA DURA MAIS:</strong> <span id="totalGasolinaAditivada">0 L</span></p>
-    <p><strong>Total  DIESEL S10:</strong> <span id="totalDiesel">0 L</span></p>
-    <p><strong>Total  ETANOL:</strong> <span id="totalEtanol">0 L</span></p>
+        <p><strong>Total GASOLINA COMUM:</strong> <span id="totalGasolinaComum">0 L</span></p>
+        <p><strong>Total  GASOLINA DURA MAIS:</strong> <span id="totalGasolinaAditivada">0 L</span></p>
+        <p><strong>Total  DIESEL S10:</strong> <span id="totalDiesel">0 L</span></p>
+        <p><strong>Total  ETANOL:</strong> <span id="totalEtanol">0 L</span></p>
     </div>
 
     <script>
