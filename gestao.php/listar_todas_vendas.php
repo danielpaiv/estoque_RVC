@@ -239,6 +239,11 @@
         color: #000000; 
         font-weight: bold;           /* texto preto */
         }
+        .estoque-medio {
+        background: linear-gradient(to bottom, #ffea00, #ffff00); /* amarelo */
+        color: #000000;            /* texto preto */            
+        font-weight: bold;
+        }
 
         .estoque-baixo:hover {
         background: linear-gradient(to bottom, #f56200, #ff2e2e); /* laranja ao passar o mouse */
@@ -248,7 +253,12 @@
         .estoque-alto:hover {
         background: linear-gradient(to bottom, #2e7d32, #00ff00);
         color: #ffffff;
-}
+        }
+        .estoque-medio:hover {
+        background: linear-gradient(to bottom, #c6b800, #ffff00);
+        color: #000000;            /* texto preto ao passar o mouse */
+        font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -334,14 +344,19 @@
                     $quantidade = (float)$row['quantidade'];
                     
 
-                     // Define a classe com base na quantidade
+                     // Define classes com base na quantidade
+                    $classes = [];
+
                     if ($quantidade < 500) {
-                        $classe = 'estoque-baixo';
+                        $classes[] = 'estoque-baixo';
                     } elseif ($quantidade > 800) {
-                        $classe = 'estoque-alto';
+                        $classes[] = 'estoque-alto';
                     } else {
-                        $classe = ''; // estoque normal
+                        $classes[] = 'estoque-medio';
                     }
+
+                    // Transforma o array em uma string separada por espaço
+                    $classe = implode(' ', $classes);
 
                     echo "<tr>";
                     echo "<td>" . $row['id'] . "</td>";
