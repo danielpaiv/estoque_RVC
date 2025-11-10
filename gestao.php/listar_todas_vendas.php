@@ -228,6 +228,27 @@
             font-size: 18px;
             color: #fff;
         }
+        /* Estilo para destacar quantidade baixa */
+        .estoque-baixo {
+        background: linear-gradient(to bottom, #ac1f1fff, #ff2e2e); /* vermelho */
+        color: #ffffff;            /* texto branco */
+        font-weight: bold;
+        }
+        .estoque-alto{
+        background: linear-gradient(to bottom, #035803ff, #00ff00); /* verde */
+        color: #000000; 
+        font-weight: bold;           /* texto preto */
+        }
+
+        .estoque-baixo:hover {
+        background: linear-gradient(to bottom, #f56200, #ff2e2e); /* laranja ao passar o mouse */
+        color: #000000;            /* texto preto ao passar o mouse */
+        }
+
+        .estoque-alto:hover {
+        background: linear-gradient(to bottom, #2e7d32, #00ff00);
+        color: #ffffff;
+}
     </style>
 </head>
 <body>
@@ -308,13 +329,30 @@
 
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
+
+                     // Converte a quantidade em número para comparação
+                    $quantidade = (float)$row['quantidade'];
+                    
+
+                     // Define a classe com base na quantidade
+                    if ($quantidade < 500) {
+                        $classe = 'estoque-baixo';
+                    } elseif ($quantidade > 800) {
+                        $classe = 'estoque-alto';
+                    } else {
+                        $classe = ''; // estoque normal
+                    }
+
                     echo "<tr>";
                     echo "<td>" . $row['id'] . "</td>";
                     //echo "<td>" . $row['user_id'] . "</td>";
                     echo "<td>" . $row['nome'] . "</td>";
                     echo "<td>" . $row['posto'] . "</td>";
                     echo "<td>" . $row['produto'] . "</td>";
-                    echo "<td>" . $row['quantidade'] . "</td>";
+
+                    // Aplica a classe condicional à célula da quantidade
+                    echo "<td class='$classe'>" . htmlspecialchars($row['quantidade']) . "</td>";
+
                     echo "<td>" . $row['data_venda'] . "</td>";
                     //echo "<td><a href='editar_entradas.php?id=" . $row['id'] . "' class='btn-editar'>Editar</a> <a href='excluir_entradas.php?id=" . $row['id'] . "' class='btn-excluir'onclick=\"return confirm('Tem certeza que deseja excluir este item?')\">Excluir</a></td>";
                     echo "</tr>";

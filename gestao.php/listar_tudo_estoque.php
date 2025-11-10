@@ -252,13 +252,35 @@
         }
 
         
+        /* 🔴 Estoque baixo */
         .estoque-baixo {
-            background-color: #ff2e2eff; /* Cor de fundo vermelho claro */
-            font-weight: bold; /* Negrito para destacar */
+        background: linear-gradient(to bottom, #ac1f1fff, #ff2e2e);
+        color: #ffffff;
+        font-weight: bold;
         }
+
+        /* 🟢 Estoque alto */
+        .estoque-alto {
+        background: linear-gradient(to bottom, #035803ff, #00ff00);
+        color: #000000;
+        font-weight: bold;
+        }
+
+        /* Efeitos ao passar o mouse */
         .estoque-baixo:hover {
-            background-color: #f56200ff; /* Cor de fundo vermelho mais intenso ao passar o mouse */
-            color: #000000ff; /* Texto branco ao passar o mouse */
+        background: linear-gradient(to bottom, #f56200, #ff2e2e);
+        color: #000000;
+        }
+
+        .estoque-alto:hover {
+        background: linear-gradient(to bottom, #2e7d32, #00ff00);
+        color: #ffffff;
+        }
+
+        .estoque-medio {
+        background-color: #ffcc00;
+        color: #000000;
+        font-weight: bold;
         }
 
             
@@ -349,12 +371,34 @@
                     <td><?= htmlspecialchars($row['posto']) ?></td>
                     <td><?= htmlspecialchars($row['produto']) ?></td>
 
-                     <!-- Coluna Estoque do Sistema -->
-                    <td class="<?= ($row['estoque_sistema'] < 2500) ? 'estoque-baixo' : '' ?>">
-                        <?= $row['estoque_sistema'] ?>
+                    <!-- Coluna Estoque do Sistema -->
+                    <?php
+                        $estoqueSistema = (float)$row['estoque_sistema'];
+                        if ($estoqueSistema < 2500) {
+                            $classeSistema = 'estoque-baixo';
+                        } elseif ($estoqueSistema > 2499) {
+                            $classeSistema = 'estoque-alto';
+                        } else {
+                            $classeSistema = '';
+                        }
+                    ?>
+                    <td class="<?= $classeSistema ?>">
+                        <?= htmlspecialchars($row['estoque_sistema']) ?>
                     </td>
-                    <td class="<?= ($row['estoque_fisico'] < 2500) ? 'estoque-baixo' : '' ?>">
-                        <?= $row['estoque_fisico'] ?>
+
+                    <!-- Coluna Estoque Físico -->
+                    <?php
+                        $estoqueFisico = (float)$row['estoque_fisico'];
+                        if ($estoqueFisico < 2500) {
+                            $classeFisico = 'estoque-baixo';
+                        } elseif ($estoqueFisico > 2500) {
+                            $classeFisico = 'estoque-alto';
+                        } else {
+                            $classeFisico = '';
+                        }
+                    ?>
+                    <td class="<?= $classeFisico ?>">
+                        <?= htmlspecialchars($row['estoque_fisico']) ?>
                     </td>
 
                     <td><?= $row['diferenca'] ?></td>
