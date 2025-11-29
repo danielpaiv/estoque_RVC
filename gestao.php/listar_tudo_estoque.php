@@ -360,6 +360,7 @@
                 <th>Estoque Físico</th>
                 <th>Diferença</th>
                 <th>Data</th>
+                <th>Ações</th>
                 
         </tr>
     </thead>
@@ -422,11 +423,11 @@
                     </td>
 
                     <td><?= $row['data_venda'] ?></td>
-                    <!--<td>
-                        <a href="editar_estoque.php?id=<?= $row['id'] ?>" class="btn btn-editar">Editar</a>
-                        <a href="excluir_estoque.php?id=<?= $row['id'] ?>" class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este item?')">Excluir</a>
+                    <td>
+                        <a href="pedidos/pedidos.php?id=<?= $row['id'] ?>" class="btn btn-editar">Fazer pedido</a>
+                        <!--<a href="excluir_estoque.php?id=<?= $row['id'] ?>" class="btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este item?')">Excluir</a>-->
                         
-                    </td>-->
+                    </td>
                 </tr>
             <?php endwhile; ?>
         <?php else: ?>
